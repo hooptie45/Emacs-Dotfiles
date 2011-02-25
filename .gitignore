@@ -21,3 +21,5 @@ session*
 tramp
 \#*
 history
+/init.el~
+/starter-kit-bindings.el~
