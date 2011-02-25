@@ -50,6 +50,7 @@
 (require 'ffap)
 (require 'uniquify)
 
+
 (require 'recentf)
 
 ;; backport some functionality to Emacs 22 if needed
