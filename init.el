@@ -36,9 +36,7 @@
 (if (file-exists-p system-specific-config) (load system-specific-config))
 
 (require 'package)
-(dolist (source '(("technomancy" . "http://repo.technomancy.us/emacs/")
-                  ("elpa" . "http://tromey.com/elpa/")))
-  (add-to-list 'package-archives source t))
+
 (package-initialize)
 (require 'starter-kit-elpa)
 (menu-bar-mode)
@@ -51,11 +49,11 @@
 (require 'saveplace)
 (require 'ffap)
 (require 'uniquify)
-(require 'ansi-color)
+
 (require 'recentf)
 
 ;; backport some functionality to Emacs 22 if needed
-(require 'dominating-file)
+
 (if (file-exists-p user-specific-config) (load user-specific-config))
 (if (file-exists-p user-specific-dir)
   (mapc #'load (directory-files user-specific-dir nil ".*el$")))
@@ -78,7 +76,7 @@
 ;; apply a function to all files in a dir
 
 (require 'starter-kit-bindings)
-(regen-autoloads)
+
 (load custom-file 'noerror)
 
 ;; You can keep system- or user-specific customizations here
@@ -108,3 +106,5 @@
 (menu-bar-mode)
 
 (anything-mini)
+
+(setq magit-git-executable "/usr/local/bin/git")

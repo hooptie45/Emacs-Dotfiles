@@ -81,7 +81,7 @@
                         starter-kit-lisp
                         starter-kit-ruby
                         slime-init
-                        
+                        magit
                         ))
 
 
@@ -89,12 +89,12 @@
     (setq-default dired-omit-files-p t) ; this is buffer-local variable
     (setq dired-omit-files "^\\.?#\\|^\\.$\\|~$\\|backups\\|trash\\|^.git$")
 
-(insert dired-omit-files)
+
 
 (setq custom-file (concat dotfiles-dir "custom.el"))
 (load "package")
 (require 'magit)
-(magit-status "~/.emacs.d")
+
 
 (load custom-file 'noerror)
 
