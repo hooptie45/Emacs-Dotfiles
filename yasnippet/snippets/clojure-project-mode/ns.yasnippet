@@ -1,0 +1,8 @@
+# -*- mode: snippet -*-
+# name: ns
+# key: ns
+# --
+(ns `root-ns`.`(file-name-sans-extension 
+(file-name-nondirectory (buffer-file-name (current-buffer))))`
+  (:use clj-time.core
+        clojure.test))
