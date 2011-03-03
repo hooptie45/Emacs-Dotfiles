@@ -18,7 +18,8 @@
 
 ;;; Emacs Lisp
 
-(add-hook 'emacs-lisp-mode-hook 'turn-on-eldoc-mode)
+(add-hook 'slime-mode-hook 'slime-autodoc-mode)
+(add-hook 'slime-connected-hook (lambda () (setq slime-use-autodoc-mode nil)))
 (add-hook 'emacs-lisp-mode-hook 'esk-remove-elc-on-save)
 
 (defun esk-remove-elc-on-save ()
