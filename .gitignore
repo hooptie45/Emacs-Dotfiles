@@ -1,5 +1,12 @@
 loaddefs.el*
 backups/*
+emacs-backup/*
+trash/*
+emacs-ide/*
+emacs-nav/*
+vendor/*
+*~
+*#
 auto-save-list
 custom.el
 *elc
@@ -24,3 +31,4 @@ history
 /init.el~
 /starter-kit-bindings.el~
 /anything-c-adaptive-history
+/trash/
