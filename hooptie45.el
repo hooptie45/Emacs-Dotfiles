@@ -80,7 +80,7 @@
                         starter-kit-eshell
                         starter-kit-lisp
                         starter-kit-ruby
-                    
+                        slime-init
                         magit
                         ))
 
