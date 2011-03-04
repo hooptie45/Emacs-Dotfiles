@@ -109,6 +109,7 @@
 (anything-mini)
 
 (setq magit-git-executable "/usr/local/bin/git")
+
 (defun my-backup-file-name (fpath)
    "Return a new file path of a given file path.
  If the new path's directories does not exist, create them."

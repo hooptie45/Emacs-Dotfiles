@@ -21,7 +21,9 @@
                      "/usr/bin:"
                      "/bin"))
   (setenv "PATH" path))
+
 (setq ring-bell-function 'ignore)
+
 
 
 (setq visual-bell nil)
