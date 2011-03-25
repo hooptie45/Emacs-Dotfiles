@@ -11,20 +11,6 @@
 (setq custom-file (concat dotfiles-dir "custom.el"))
 
 (normal-top-level-add-subdirs-to-load-path )
-(require 'dot-emacs-helper)
-
-(setq deh-custom-file "~/.emacs.d/init.el")
-(deh-section "backup"
-  
-  (defun my-backup-file-name (fpath)
-    (let (backup-root bpath)
-      (setq backup-root "~/.emacs.d/emacs-backup")
-      (setq bpath (concat backup-root fpath "~"))
-      (make-directory (file-name-directory bpath) bpath)
-      bpath)))
-
-
-
 
 (if (fboundp 'scroll-bar-mode) (scroll-bar-mode -1))
 (setq system-specific-config (concat dotfiles-dir system-name ".el")
@@ -92,28 +78,11 @@
 
 ;;; init.el ends here
 
-(defun my-comment ()
-  (interactive)
-  (save-excursion
-    (kill-region (point-at-bol) (point-at-eol))
-    (progn               
-      (insert ";; ")
-      (insert-char ?- 77)
-      (newline)
-      (insert ";; |") (yank)
-      (newline)
-      (insert ";; ")
-      (insert-char ?- 77)----------------------------------------------------------------------------------------------------------------------------------------------------------)
-    )
-  (line-move 1))
-
-
 (server-start)
 (menu-bar-mode)
 
-(anything-mini)
 
-(setq magit-git-executable "/usr/local/bin/git")
+
 
 
 (defun new-init (name)
@@ -129,26 +98,6 @@
 (put 'downcase-region 'disabled nil)
 
 (require 'magit)
-;; (defun ido-ignore-anything-mode (name)
-;;  "Ignore all c mode buffers -- example function for ido."
-;;  (with-current-buffer name (derived-mode-p 'completion-list-mode
-;;                                            'help-mode
-;;                                            'anything-mode
-;;                                            'custom
-;;                                            'Buffer-menu-mode
-;;                                            'ibuffer
-;;                                            'magit-mode
-;;                                            'magit-diff-mode
-;;                                            'magit-status-mode
-;;                                            'magit-stash-mode
-;;                                            'magit
-;;                                            'dired-mode
-;;                                            'fundamental-mode
-;;                                            'Info-mode
-;;                                            'slime-fuzzy-completions-mode
-;;                                            'help-mode
-;;                                            'Custom-mode
-;;                                            'customize-mode 'bookmark-bmenu-mode 'help-mode)))
 
 (require 'org)
 
@@ -161,19 +110,10 @@
      ;; other templates
     ))
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; (setq-default command-frequency-table-file "~/.emacs.d/frequencies") ;;
-;; (add-to-list 'load-path "~/.emacs.d/vendor")                         ;;
-;; (require 'command-frequency)                                         ;;
-;; (command-frequency-table-load)                                       ;;
-;; (command-frequency-mode 1)                                           ;;
-;; (command-frequency-autosave-mode 1)                                  ;;
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 
 
 
-(zone-when-idle 5)
 (defadvice ido-prev-match (after ido-prev-match activate)
   (let* ((sym  (intern (car ido-cur-list)) obarray ))
     (cond ((functionp sym)
@@ -209,14 +149,7 @@
 (global-set-key (kbd "C-k") 'kill-and-join-forward) 
 
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; (require 'rotate-text) ;;
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
 (require 'imenu)
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; This just allows you to use the imenu commands. ;;
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (defun ido-goto-symbol ()
   "Will update the imenu index and then use ido to select a symbol to navigate to"

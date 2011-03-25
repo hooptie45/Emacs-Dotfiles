@@ -28,7 +28,24 @@
       (set-register r (cdr reg))
       (message "%s -> %s" (car reg) (cdr reg))
       (car reg))))
- 
+
+
+(defun my-comment ()
+  (interactive)
+  (save-excursion
+    (kill-region (point-at-bol) (point-at-eol))
+    (progn               
+      (insert ";; ")
+      (insert-char ?- 77)
+      (newline)
+      (insert ";; |") (yank)
+      (newline)
+      (insert ";; ")
+      (insert-char ?- 77)----------------------------------------------------------------------------------------------------------------------------------------------------------)
+    )
+  (line-move 1))
+
+
 (defun push-point (&optional r)
   
   (interactive)

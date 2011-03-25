@@ -28,7 +28,9 @@
 
 (define-key global-map  (kbd "<S-left>") 'windmove-left)
 (define-key global-map  (kbd "<S-right>") 'windmove-right)
+(define-key global-map  (kbd "<S-down>") 'windmove-down)
 (define-key global-map  (kbd "<S-up>") 'windmove-up)
+
 (global-set-key [mouse-3] 'dired-jump)
 (global-set-key (kbd "M-z") 'dired-jump)
 (define-key dired-mode-map [mouse-3] 'dired-up-directory)
@@ -49,4 +51,5 @@
 
 (define-key global-map (kbd "C-x f") 'recentf-ido-find-file)
 (define-key dired-mode-map (kbd "M-z") 'dired-up-directory)
+
 (provide 'starter-kit-bindings)
