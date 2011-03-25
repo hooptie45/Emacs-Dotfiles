@@ -1,266 +1,313 @@
-;;; starter-kit-defuns.el --- Define some custom functions
-;;
-;; Part of the Emacs Starter Kit
+(load "starter-kit-defuns-builtin.el")
 
-(require 'thingatpt)
-(require 'imenu)
+(defun replace-in-defun (s)
+  (interactive "sReplace with: ")
 
-;; Network
+  (replace-w-in-r (thing-nearest-point 'sexp)
+	    (car kill-ring)
+	    (bounds-of-thing-nearest-point 'defun)))
 
-(defun view-url ()
-  "Open a new buffer containing the contents of URL."
+(defun get-word-at-mark ()
   (interactive)
-  (let* ((default (thing-at-point-url-at-point))
-         (url (read-from-minibuffer "URL: " default)))
-    (switch-to-buffer (url-retrieve-synchronously url))
-    (rename-buffer url t)
-    ;; TODO: switch to nxml/nxhtml mode
-    (cond ((search-forward "<?xml" nil t) (xml-mode))
-          ((search-forward "<html" nil t) (html-mode)))))
+  (save-excursion
+    (progn
+      (goto-char (car mark-ring))
+      (word-at-point))))
 
-;; Buffer-related
+(defun clear-reg (r)
+  (interactive "cRegister: ")
+  (set-register r nil))
 
-(defun ido-imenu ()
-  "Update the imenu index and then use ido to select a symbol to navigate to.
-Symbols matching the text at point are put first in the completion list."
-  (interactive)
-  (imenu--make-index-alist)
-  (let ((name-and-pos '())
-        (symbol-names '()))
-    (flet ((addsymbols (symbol-list)
-                       (when (listp symbol-list)
-                         (dolist (symbol symbol-list)
-                           (let ((name nil) (position nil))
-                             (cond
-                              ((and (listp symbol) (imenu--subalist-p symbol))
-                               (addsymbols symbol))
-                              
-                              ((listp symbol)
-                               (setq name (car symbol))
-                               (setq position (cdr symbol)))
-                              
-                              ((stringp symbol)
-                               (setq name symbol)
-                               (setq position (get-text-property 1 'org-imenu-marker symbol))))
-                             
-                             (unless (or (null position) (null name))
-                               (add-to-list 'symbol-names name)
-                               (add-to-list 'name-and-pos (cons name position))))))))
-      (addsymbols imenu--index-alist))
-    ;; If there are matching symbols at point, put them at the beginning of `symbol-names'.
-    (let ((symbol-at-point (thing-at-point 'symbol)))
-      (when symbol-at-point
-        (let* ((regexp (concat (regexp-quote symbol-at-point) "$"))
-               (matching-symbols (delq nil (mapcar (lambda (symbol)
-                                                     (if (string-match regexp symbol) symbol))
-                                                   symbol-names))))
-          (when matching-symbols
-            (sort matching-symbols (lambda (a b) (> (length a) (length b))))
-            (mapc (lambda (symbol) (setq symbol-names (cons symbol (delete symbol symbol-names))))
-                  matching-symbols)))))
-    (let* ((selected-symbol (ido-completing-read "Symbol? " symbol-names))
-           (position (cdr (assoc selected-symbol name-and-pos))))
-      (goto-char position))))
+(defun push-reg (r v)
+  (set-register r (cons v (get-register r))))
 
-;;; These belong in coding-hook:
-
-;; We have a number of turn-on-* functions since it's advised that lambda
-;; functions not go in hooks. Repeatedly evaling an add-to-list with a
-;; hook value will repeatedly add it since there's no way to ensure
-;; that a lambda doesn't already exist in the list.
-
-(defun local-column-number-mode ()
-  (make-local-variable 'column-number-mode)
-  (column-number-mode t))
-
-(defun local-comment-auto-fill ()
-  (set (make-local-variable 'comment-auto-fill-only-comments) t)
-  (auto-fill-mode t))
-
-(defun turn-on-hl-line-mode ()
-  (when (> (display-color-cells) 8) (hl-line-mode t)))
-
-(defun turn-on-save-place-mode ()
-  (setq save-place t))
-
-(defun turn-on-whitespace ()
-  (whitespace-mode t))
-
-(defun turn-on-paredit ()
-  (paredit-mode t))
-
-(defun turn-off-tool-bar ()
-  (tool-bar-mode -1))
-
-(defun add-watchwords ()
-  (font-lock-add-keywords
-   nil '(("\\<\\(FIX\\|TODO\\|FIXME\\|HACK\\|REFACTOR\\):"
-          1 font-lock-warning-face t))))
-
-(add-hook 'coding-hook 'local-column-number-mode)
-(add-hook 'coding-hook 'local-comment-auto-fill)
-(add-hook 'coding-hook 'turn-on-hl-line-mode)
-(add-hook 'coding-hook 'turn-on-save-place-mode)
-(add-hook 'coding-hook 'pretty-lambdas)
-(add-hook 'coding-hook 'add-watchwords)
-(add-hook 'coding-hook 'idle-highlight)
+(defun pop-reg (r)
+  (interactive "cRegister: ")
+  (let ((reg (get-register r)))
+    (progn
+      (set-register r (cdr reg))
+      (message "%s -> %s" (car reg) (cdr reg))
+      (car reg))))
+ 
+(defun push-point (&optional r)
   
-(defun run-coding-hook ()
-  "Enable things that are convenient across all coding buffers."
-  (run-hooks 'coding-hook))
-
-(defun untabify-buffer ()
   (interactive)
-  (untabify (point-min) (point-max)))
+  (push-reg (or r ?p) (point))
+  )
 
-(defun indent-buffer ()
+(defun push-word ()
+
+  (interactive "cRegister: ")
+  (push-reg r (thing-nearest-point 'word))
+  (message "%s" (get-register r)))
+
+(defun push-f (r f)
   (interactive)
-  (indent-region (point-min) (point-max)))
+  (push-reg r f)
+  (message "%s" (get-register r)))
 
-(defun cleanup-buffer ()
-  "Perform a bunch of operations on the whitespace content of a buffer."
+
+(defun replace-all (str)
+  (interactive "sReplace (REG) with (REG): ")
+  (un wind-protect 
+      (save-excursion
+	(beginning-of-defun)
+	(narro w-to-defun)
+	(let* ((treg (split-string str " "))
+	       (search (pop-reg (string-to-char (substring str 0 1))))
+	       (replace (pop-reg (string-to-char (substring str 1 2)))))
+
+
+	  (while (re-search-for ward search nil t)
+	    (let ((r (bounds-of-thing-nearest-point 'word)))
+	      (delete-region (car r) (cdr r))
+	      (insert replace)))))
+      (widen)))
+
+
+
+(defun where ()
+  (if mark-active
+      (cons (region-beginning) (region-end))
+      (cons (point) (point))))
+
+(defun mark-search (str)
+  (interactive "sSearch: ")
+  (clear-reg ?p)
+  (save-excursion
+    (goto-char (point-min))
+    (while (re-search-for ward str nil t)
+      (push-point)))
+  (vie w-register ?p))
+
+(defun at-each-point (f)
+  (save-excursion 
+    (mapc (lambda (p) 
+	    (goto-char (pop-reg ?p))
+	    (funcall f)) (get-register ?p))))
+
+(defun erv ()
   (interactive)
-  (indent-buffer)
-  (untabify-buffer)
-  (delete-trailing-whitespace))
+  (require 'server)
+  (when (and (functionp 'server-running-p) (not (server-running-p)))
+    (server-start)))
 
-(defun recentf-ido-find-file ()
-  "Find a recent file using ido."
+(defun replace-w-in-r (w-f s r-f) 
+  (save-excursion 
+    (let ((w w-f)
+          (bounds r-f))
+      (let ((text (buffer-substring-no-properties
+                   (car bounds)
+                   (cdr bounds))))
+        (with-temp-buffer
+          (insert text)
+          (kill-ne w text)
+          (goto-char (point-min)) 
+          (while (re-search-for ward w nil t)
+            (replace-match s nil nil)) 
+          (kill-ne w
+                   (buffer-substring-no-properties
+                    (point-min)
+                    (point-max))))))))
+
+(defun np-define-key (key)
+  (interactive "k")
+  (let ((commands nil))
+    (let ((com (mapatoms (lambda (a)
+			   (if (commandp a)
+			       (push (symbol-name a) commands)))
+			 obarray)))) 
+    (let ((cmd (ido-completing-read (concat "(" (format " %s " key) "): ") commands)))
+      (message "%s" cmd)
+      (define-key (current-local-map) key (intern cmd)))))
+
+(defun delete-all-overlays ()
+  "DOCSTRING"
   (interactive)
-  (let ((file (ido-completing-read "Choose recent file: " recentf-list nil t)))
-    (when file
-      (find-file file))))
+  (let* ((overlays (car (overlay-lists)))) 
+    (mapc (lambda (o) 
+	    (delete-overlay o))
+	  overlays)))
 
-;; Cosmetic
 
-(defun pretty-lambdas ()
-  (font-lock-add-keywords
-   nil `(("(?\\(lambda\\>\\)"
-          (0 (progn (compose-region (match-beginning 1) (match-end 1)
-                                    ,(make-char 'greek-iso8859-7 107))
-                    nil))))))
 
-;; Other
-
-(defun eval-and-replace ()
-  "Replace the preceding sexp with its value."
+(defun ido-commands ()
   (interactive)
-  (backward-kill-sexp)
-  (condition-case nil
-      (prin1 (eval (read (current-kill 0)))
-             (current-buffer))
-    (error (message "Invalid expression")
-           (insert (current-kill 0)))))
+  (let ((fn (ido-completing-read "C: " (let ((candidates '(lambda nil
+                                                           (let
+                                                               (commands)
+                                                             (mapatoms
+                                                              (lambda
+                                                                  (a)
+                                                                (if
+                                                                 (commandp a t)
+                                                                 (push
+                                                                  (symbol-name a)
+                                                                  commands))))
+                                                             (sort commands 'string-lessp)))))
+                                         (funcall
+                                          candidates)))))
 
-(defun recompile-init ()
-  "Byte-compile all your dotfiles again."
+    
+    (funcall (intern fn))))
+
+(defun ido-lookup ()
+    (interactive)
+    )
+(require 'thing-opt)
+
+(global-set-key (kbd "H-z") 'zone)
+(global-set-key (kbd "H-z") 'zone)
+(global-set-key (kbd "H-x") 'execute-extended-command)
+(global-set-key (kbd "M-x") 'ido-commands)
+(global-set-key (kbd "H-f") 'ido-fun)
+(global-set-key (kbd "H-v") 'ido-var)
+
+
+
+
+
+(defun ido-fun ()
   (interactive)
-  (byte-recompile-directory dotfiles-dir 0)
-  ;; TODO: remove elpa-to-submit once everything's submitted.
-  (byte-recompile-directory (concat dotfiles-dir "elpa-to-submit/") 0))
+  (let ((fn (ido-completing-read "C: " (let ((candidates '(lambda nil
+                                                           (let
+                                                               (commands)
+                                                             (mapatoms
+                                                              (lambda
+                                                                  (a)
+                                                                (if
+                                                                 (functionp a)
+                                                                 (push
+                                                                  (symbol-name a)
+                                                                  commands))))
+                                                             (sort commands 'string-lessp)))))
+                                         (funcall
+                                          candidates)))))
+    
+    (describe-function (intern fn))))
 
-(defun regen-autoloads (&optional force-regen)
-  "Regenerate the autoload definitions file if necessary and load it."
-  (interactive "P")
-  (let ((autoload-dir (concat dotfiles-dir "/elpa-to-submit"))
-        (generated-autoload-file autoload-file))
-    (when (or force-regen
-              (not (file-exists-p autoload-file))
-              (some (lambda (f) (file-newer-than-file-p f autoload-file))
-                    (directory-files autoload-dir t "\\.el$")))
-      (message "Updating autoloads...")
-      (let (emacs-lisp-mode-hook)
-        (update-directory-autoloads autoload-dir))))
-  (load autoload-file))
-
-(defun sudo-edit (&optional arg)
-  (interactive "p")
-  (if (or arg (not buffer-file-name))
-      (find-file (concat "/sudo:root@localhost:" (ido-read-file-name "File: ")))
-    (find-alternate-file (concat "/sudo:root@localhost:" buffer-file-name))))
-
-(defun lorem ()
-  "Insert a lorem ipsum."
+(defun ido-maps ()
   (interactive)
-  (insert "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do "
-          "eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim"
-          "ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut "
-          "aliquip ex ea commodo consequat. Duis aute irure dolor in "
-          "reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla "
-          "pariatur. Excepteur sint occaecat cupidatat non proident, sunt in "
-          "culpa qui officia deserunt mollit anim id est laborum."))
+  (let ((fn (ido-completing-read "C: " (remove-if 'null (mapcar (lambda (a) 
+                                                                  (if
+                                                                   (and
+                                                                    (string-match-p "map$" (symbol-name a))
+                                                                    (not (commandp a t))
+                                                                    (not (functionp a)))
+                                                                   (symbol-name a))) obarray)))))
+    
 
-(defun switch-or-start (function buffer)
-  "If the buffer is current, bury it, otherwise invoke the function."
-  (if (equal (buffer-name (current-buffer)) buffer)
-      (bury-buffer)
-    (if (get-buffer buffer)
-        (switch-to-buffer buffer)
-      (funcall function))))
+    (insert fn)))
 
-(defun insert-date ()
-  "Insert a time-stamp according to locale's date and time format."
+
+(defun ido-var ()
   (interactive)
-  (insert (format-time-string "%c" (current-time))))
-
-(defun pairing-bot ()
-  "If you can't pair program with a human, use this instead."
-  (interactive)
-  (message (if (y-or-n-p "Do you have a test for that? ") "Good." "Bad!")))
-
-(defun esk-paredit-nonlisp ()
-  "Turn on paredit mode for non-lisps."
-  (set (make-local-variable 'paredit-space-delimiter-chars)
-       (list ?\"))
-  (paredit-mode 1))
-
-(defun esk-space-for-delimiter? (endp delimiter)
-  (not (member major-mode '(ruby-mode espresso-mode js2-mode))))
-
-(eval-after-load 'paredit
-  '(add-to-list 'paredit-space-for-delimiter-predicates
-                'esk-space-for-delimiter?))
-
-(defun message-point ()
-  (interactive)
-  (message "%s" (point)))
-
-(defun esk-disapproval ()
-  (interactive)
-  (insert "ಠ_ಠ"))
-
-(defun esk-agent-path ()
-  (if (eq system-type 'darwin)
-      "*launch*/Listeners"
-    "*ssh*/agent\.*"))
-
-(defun esk-find-agent ()
-  (let* ((path-clause (format "-path \"%s\"" (esk-agent-path)))
-         (find-command (format "$(find -L /tmp -uid $UID %s -type s 2> /dev/null)"
-                               path-clause)))
-    (first (split-string
-            (shell-command-to-string
-             (format "/bin/ls -t1 %s | head -1" find-command))))))
-
-(defun fix-agent ()
-  (interactive)
-  (let ((agent (esk-find-agent)))
-    (setenv "SSH_AUTH_SOCK" agent)
-    (message agent)))
-
-(defun toggle-fullscreen ()
-  (interactive)
-  ;; TODO: this only works for X. patches welcome for other OSes.
-  (x-send-client-message nil 0 nil "_NET_WM_STATE" 32
-                         '(2 "_NET_WM_STATE_MAXIMIZED_VERT" 0))
-  (x-send-client-message nil 0 nil "_NET_WM_STATE" 32
-                         '(2 "_NET_WM_STATE_MAXIMIZED_HORZ" 0)))
+  (let ((fn (ido-completing-read "C: " (let ((candidates (lambda nil
+                                                           (sort
+                                                            (all-completions "" obarray 'boundp)
+                                                            'string-lessp))))
+                                         (funcall candidates))
+                                 )))
+    
+    (describe-variable (intern fn))))
 
 
-;; A monkeypatch to cause annotate to ignore whitespace
-(defun vc-git-annotate-command (file buf &optional rev)
-  (let ((name (file-relative-name file)))
-    (vc-git-command buf 0 name "blame" "-w" rev)))
+
 
 (provide 'starter-kit-defuns)
+
 ;;; starter-kit-defuns.el ends here
+  
+  
+
+(defun add-to-defuns ()
+  "DOCSTRING"
+  (interactive)
+  (let* ((bnds (bounds-of-thing-nearest-point 'defun))
+         (start (car bnds))
+         (end (cdr bnds))
+         (text (buffer-substring start end)))
+    (save-excursion 
+      (set-buffer "starter-kit-defuns.el")
+      (goto-char (point-max))
+      (insert text))))
+
+
+(defun ctp () "collect trailing parens"
+       ;; bunches the `dangling parens' in your code up into the useless and unnatural
+       ;; position expected by the lisp community.  Depends on font-lock to avoid
+       ;; moving a trailing paren onto the end of a comment.
+       (interactive)
+       (save-excursion 
+         (mark-defun)
+         (indent-region (point) (mark))
+           
+         (while (re-search-forward "^\\s *)" nil t)
+           (end-of-line 0)
+           (if (eq 'font-lock-comment-face (get-char-property (1-(point)) 'face))
+               (end-of-line 2)
+               (delete-indentation -1))
+           (beginning-of-line 2))))
+
+
+(defun toggle-etp ()
+  (interactive)
+  (narrow-to-defun)
+  (save-excursion    
+    (beginning-of-defun)
+    (if (re-search-forward " )" nil t)
+        (ctp)
+        (etp)))
+  (widen)
+  t)
+
+
+
+
+
+
+(defun etp () "Expands trailing parens"
+       ;; This function ignores parens within quotes and comments only if
+
+       ;; font-lock is turned on.  If the closing paren is on the same line as
+       ;; the open then leave it there otherwise give it it's own line.  The
+       ;; trailing parens won't be lined up in the same column with the opening
+       ;; paren unless you have my mod for calculate-lisp-indent installed too.
+       (interactive)
+       (save-excursion
+         (mark-defun)
+         (indent-region (point) (mark))
+         
+         (while (re-search-forward ")" nil t)
+           (if (not (or (eq 'font-lock-comment-face (get-char-property (1- (point)) 'face))
+                        (eq 'font-lock-string-face (get-char-property (1- (point)) 'face))
+                        (looking-back "^\\s-*)")
+                        )
+                    )
+               (let ((pos1 (line-beginning-position)))
+                 (if (save-excursion
+                       (condition-case () (goto-char (scan-sexps (point) -1)) (error nil))
+                       (eq pos1 (line-beginning-position))
+                       )
+                     () ;do nothing if unbalanced or open on same line
+                     (backward-char)
+                     (newline-and-indent)
+                     (goto-char pos1)
+                     )
+                 )
+               )
+           )
+         )
+       )
+
+
+
+(global-set-key (kbd "C-z") 'undo)
+
+
+
+
+(define-key paredit-mode-map (kbd "\\") 'self-insert-command)
+(define-key paredit-mode-map (kbd "H-s") 'fixup-whitespace)
+(define-key global-map (kbd "C-?") 'sel-disp)
+(global-set-key (kbd "C-t") 'toggle-etp)

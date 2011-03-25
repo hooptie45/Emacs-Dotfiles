@@ -105,5 +105,6 @@
              (when (match-string 0)
                (setq ns (match-string-no-properties 1))))
       ns)))
-(project-ns)
+
+
 

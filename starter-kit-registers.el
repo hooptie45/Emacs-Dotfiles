@@ -10,7 +10,9 @@
 
 (dolist (r `((?i (file . ,(concat dotfiles-dir "init.el")))
              (?b (file . ,(concat dotfiles-dir "starter-kit-bindings.el")))
-             (?r (file . ,(concat dotfiles-dir "starter-kit-registers.el")))))
+             (?h (file . ,(concat dotfiles-dir "hooptie45.el")))
+             (?r (file . ,(concat dotfiles-dir "starter-kit-registers.el")))
+             (?d (file . ,(concat dotfiles-dir "starter-kit-defuns.el")))))
   (set-register (car r) (cadr r)))
 
 (provide 'starter-kit-registers)

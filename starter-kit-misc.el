@@ -36,8 +36,6 @@
       xterm-mouse-mode t
       save-place-file (concat dotfiles-dir "places"))
 
-(add-to-list 'safe-local-variable-values '(lexical-binding . t))
-(add-to-list 'safe-local-variable-values '(whitespace-line-column . 80))
 
 ;; Set this to whatever browser you use
 ;; (setq browse-url-browser-function 'browse-url-firefox)
@@ -62,13 +60,7 @@
 (show-paren-mode 1)
 
 ;; ido-mode is like magic pixie dust!
-(when (> emacs-major-version 21)
-  (ido-mode t)
-  (setq ido-enable-prefix nil
-        ido-enable-flex-matching t
-        ido-create-new-buffer 'always
-        ido-use-filename-at-point 'guess
-        ido-max-prospects 10))
+
 
 (set-default 'indent-tabs-mode nil)
 (set-default 'indicate-empty-lines t)
@@ -92,8 +84,7 @@
 (delete 'try-complete-file-name hippie-expand-try-functions-list)
 
 ;; Don't clutter up directories with files~
-(setq backup-directory-alist `(("." . ,(expand-file-name
-                                        (concat dotfiles-dir "backups")))))
+
 
 ;; nxhtml stuff
 (setq mumamo-chunk-coloring 'submode-colored
@@ -122,8 +113,7 @@
 
 ;; Cosmetics
 
-(set-face-background 'vertical-border "white")
-(set-face-foreground 'vertical-border "white")
+
 
 (eval-after-load 'diff-mode
   '(progn

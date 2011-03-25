@@ -1,0 +1,5 @@
+(defun new-init (name)
+  (interactive "sName: ")
+  ( (concat dotfiles-dir "starter-kit-" name ".el"))
+  (insert (concat "(provide 'starter-kit-") name ")")
+  )(provide 'starter-kit-f)

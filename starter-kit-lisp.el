@@ -65,11 +65,11 @@
 
 (eval-after-load 'slime
   '(define-key slime-mode-map (kbd "C-c p")
-     'slime-pprint-eval-last-expression))
+    'slime-pprint-eval-last-expression))
 
 (eval-after-load 'slime-repl
   '(define-key slime-repl-mode-map (kbd "C-c p")
-     'slime-pprint-eval-last-expression))
+    'slime-pprint-eval-last-expression))
 
 (provide 'starter-kit-lisp)
 ;; starter-kit-lisp.el ends here

@@ -3,3 +3,4 @@
 ;; then enter the text in that file's own buffer.
 
 (eproject--build-parent-candidates ".")
+((rege "^[" "]$"))

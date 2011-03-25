@@ -1,0 +1,8 @@
+# -*- mode: snippet -*-
+# name: Bounds of Thing at Point
+# key: bot
+# --
+(let* ((bnds (bounds-of-thing-nearest-point '$1))
+(start (car bnds))
+(end (cdr bnds))) $0)
+
