@@ -162,7 +162,7 @@ The name of the sheet read is stored in *cheat-last-sheet* unless it was blank."
                      (if (not (blank default))
                          (concat "Cheat name (default: " default "): ")
                          "Cheat name: ")))
-         (name (completing-read prompt
+         (name (ido-completing-read prompt
                                 (cheat-sheets-list t)
                                 nil
                                 t

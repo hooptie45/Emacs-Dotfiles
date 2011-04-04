@@ -13,6 +13,7 @@
              (?h (file . ,(concat dotfiles-dir "hooptie45.el")))
              (?r (file . ,(concat dotfiles-dir "starter-kit-registers.el")))
              (?d (file . ,(concat dotfiles-dir "starter-kit-defuns.el")))))
+  
   (set-register (car r) (cadr r)))
 
 (provide 'starter-kit-registers)

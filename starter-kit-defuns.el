@@ -1,11 +1,12 @@
+
 (load "starter-kit-defuns-builtin.el")
 
 (defun replace-in-defun (s)
   (interactive "sReplace with: ")
 
   (replace-w-in-r (thing-nearest-point 'sexp)
-	    (car kill-ring)
-	    (bounds-of-thing-nearest-point 'defun)))
+                  (car kill-ring)
+                  (bounds-of-thing-nearest-point 'defun)))
 
 (defun get-word-at-mark ()
   (interactive)
@@ -72,15 +73,30 @@
 	(narro w-to-defun)
 	(let* ((treg (split-string str " "))
 	       (search (pop-reg (string-to-char (substring str 0 1))))
-	       (replace (pop-reg (string-to-char (substring str 1 2)))))
+	       (replace (pop-reg (string-to-char (substring str 1 2))))
+               )
 
 
 	  (while (re-search-for ward search nil t)
 	    (let ((r (bounds-of-thing-nearest-point 'word)))
 	      (delete-region (car r) (cdr r))
-	      (insert replace)))))
-      (widen)))
-
+	      (insert replace)
+              )
+            )
+          )
+        )
+      (widen)
+      )
+  )
+(defun add-cdr (k val l)
+  
+  
+  
+  (setcdr (or (assoc k l)
+              (car (pushnew (list k) l)))
+          (pushnew val (cdr (or (assoc k l)
+                                (car (pushnew (list k) l)))) :test 'string=))
+  l)
 
 
 (defun where ()
@@ -168,19 +184,7 @@
     
     (funcall (intern fn))))
 
-(defun ido-lookup ()
-    (interactive)
-    )
 (require 'thing-opt)
-
-(global-set-key (kbd "H-z") 'zone)
-(global-set-key (kbd "H-z") 'zone)
-(global-set-key (kbd "H-x") 'execute-extended-command)
-(global-set-key (kbd "M-x") 'ido-commands)
-(global-set-key (kbd "H-f") 'ido-fun)
-(global-set-key (kbd "H-v") 'ido-var)
-
-
 
 
 
@@ -234,8 +238,8 @@
 (provide 'starter-kit-defuns)
 
 ;;; starter-kit-defuns.el ends here
-  
-  
+
+
 
 (defun add-to-defuns ()
   "DOCSTRING"
@@ -249,7 +253,6 @@
       (goto-char (point-max))
       (insert text))))
 
-
 (defun ctp () "collect trailing parens"
        ;; bunches the `dangling parens' in your code up into the useless and unnatural
        ;; position expected by the lisp community.  Depends on font-lock to avoid
@@ -258,7 +261,7 @@
        (save-excursion 
          (mark-defun)
          (indent-region (point) (mark))
-           
+         
          (while (re-search-forward "^\\s *)" nil t)
            (end-of-line 0)
            (if (eq 'font-lock-comment-face (get-char-property (1-(point)) 'face))
@@ -278,11 +281,6 @@
   (widen)
   t)
 
-
-
-
-
-
 (defun etp () "Expands trailing parens"
        ;; This function ignores parens within quotes and comments only if
 
@@ -298,33 +296,103 @@
          (while (re-search-forward ")" nil t)
            (if (not (or (eq 'font-lock-comment-face (get-char-property (1- (point)) 'face))
                         (eq 'font-lock-string-face (get-char-property (1- (point)) 'face))
-                        (looking-back "^\\s-*)")
-                        )
-                    )
+                        (looking-back "^\\s-*)")))
                (let ((pos1 (line-beginning-position)))
                  (if (save-excursion
                        (condition-case () (goto-char (scan-sexps (point) -1)) (error nil))
-                       (eq pos1 (line-beginning-position))
-                       )
+                       (eq pos1 (line-beginning-position)))
                      () ;do nothing if unbalanced or open on same line
                      (backward-char)
                      (newline-and-indent)
-                     (goto-char pos1)
-                     )
-                 )
-               )
-           )
-         )
-       )
-
-
-
-(global-set-key (kbd "C-z") 'undo)
+                     (goto-char pos1)))))))
 
 
 
 
-(define-key paredit-mode-map (kbd "\\") 'self-insert-command)
-(define-key paredit-mode-map (kbd "H-s") 'fixup-whitespace)
-(define-key global-map (kbd "C-?") 'sel-disp)
-(global-set-key (kbd "C-t") 'toggle-etp)
+
+;; (defun filter-recents ()
+;;   (interactive)
+;;   (let* (
+;;          (recents (remove-if 'null (mapcar 'buffer-name (buffer-list))))
+;;          (mode-rules (recentf-build-mode-rules))
+;;          (recentf-arrange-rules '((recentf-dir-rule . ".*"))))
+;;     (arrange-by-rule recents)
+;;     ))
+
+
+
+
+
+;; (defvar np)
+;; (with-output-to-temp-buffer "stemp"
+;;   (cl-prettyprint np))
+
+
+
+
+
+;; (defun arrange-by-rule (l)
+;;   ""
+;;   (when recentf-arrange-rules
+;;     (let (menus others menu file min count)
+;;       (dolist (elt l)
+;;         (setq file (list elt)
+;;               menu (recentf-match-rule "151 Proof Rum"))
+;;         (while (functionp (car menu))
+;;           (setq menu (funcall (car menu) (cdr menu))))
+;;         (if (not (stringp (car menu)))
+;;             (push elt others)
+;;             (setq menu (or (assoc (car menu) menus)
+;;                            (car (push (list (car menu)) menus))))
+;;             (setcdr menu (cons elt (cdr menu)))))
+;;       (setq min (if (natnump recentf-arrange-by-rules-min-items)
+;;                     recentf-arrange-by-rules-min-items 0)
+;;             l nil)
+;;       (dolist (elt menus)
+;;         (setq menu (cdr elt)
+;;               count (length menu))
+;;         (if (< count min)
+;;             (setq others (nconc menu others))
+;;             (setcar elt (format (car elt) count))
+;;             (setcdr elt (recentf-apply-menu-filter
+;;                          recentf-arrange-by-rule-subfilter
+;;                          (nreverse menu)))
+;;             (push elt l)))
+;;       ;; Add the menu items remaining in the `others' bin.
+;;       (when (setq others (nreverse others))
+;;         (setq l (nconc
+;;                  l
+;;                  ;; Put items in an sub menu.
+;;                  (if (stringp recentf-arrange-by-rule-others)
+;;                      (list
+;;                       (cons (format recentf-arrange-by-rule-others
+;;                                     (length others))
+;;                             (recentf-apply-menu-filter
+;;                              recentf-arrange-by-rule-subfilter
+;;                              others)))
+;;                      ;; Append items to the main menu.
+;;                      (recentf-apply-menu-filter
+;;                       recentf-arrange-by-rule-subfilter others)))))))
+;;   l)
+
+
+(defun fixup-liq ()
+  (interactive)
+  (while (re-search-forward "^\\W\\W[a-z0-9()]" nil t)    
+    (progn
+      (beginning-of-line)
+      (join-line)
+      (just-one-space)
+      (next-line))))
+
+(defun np-nxml-fix ()
+  (interactive)
+  (while  (re-search-forward "<li>")
+    (progn
+      (beginning-of-line 1)
+      (forward-list 2)
+      (zap-to-char 1 ?\<)
+      (delete-region (line-beginning-position) (line-end-position))
+      (yank)
+      (delete-char -1)
+      (forward-paragraph))))

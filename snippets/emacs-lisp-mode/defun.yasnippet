@@ -3,9 +3,7 @@
 #key: defun
 #key: d
 # --
-(defun $1 ()
-  "DOCSTRING"
-  (interactive)
-  (let* (($2 $3))    
-    $0
-  ))
+(defun $1 ($2)
+  "Doc for `$1`"
+  ${:(interactive)}
+    $0)
