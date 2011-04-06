@@ -95,48 +95,19 @@
 (require 'findr)
 (anything-force-update)
 (mapc (lambda (f) 
-
         (save-window-excursion 
           (find-file-read-only f)))
       (findr "starter" (file-name-directory (buffer-file-name (current-buffer)))))
-
+ido-ignore-buffers
 (setf findr-skip-directory-regexp (regexp-opt my-ignore-dirs))
-(setf my-ignore-dirs  (list "loaddefs.el"
-                            "Trash"
-                            "vendor"
-                            ".git"
-                            ".svn"
-                            "save"
-                            "swank"
-                            "slime"
-                            "elpa"
-                            "snippets"
-                            "backups"
-                            "emacs-backup"
-                            "trash"
-                            "emacs-ide"
-                            "emacs-nav"
-                            "~"
-                            "#"
-                            "auto-save-list"
-                            "elc"
-                            "places"
-                            "elpa-to-submit/jabber/jabber.info"
-                            "thumbs"
-                            "oddmuse"
-                            ".newsrc-dribble"
-                            ".nnmail-cache"
-                            "#.newsrc-dribble#"
-                            ".svn"
-                            ".DS_Store"
-                            "image-dired"
-                            "elim"
-                            "session"
-                            "tramp"
-                            "history"
-                            "anything-c-adaptive-history"
-                            "trash"
-                            "yasnippet"
-                            "/js.js"
-                            "ido/.ido.last"
-                            "frequencies"))
+(setf slime-close-all-parens-in-sexp)
+(setf vc-ignore-vc-files)
+(setf ido-ignore-directories-merge)
+(setf ido-ignore-buffers)
+(setf iswitchb-buffer-ignore)
+(setf (setf grep-find-ignored-directories (regexp-opt my-ignore-dirs)))
+(setf my-ignore-dirs  (list "loaddefs.el " "Trash" "vendor" ".git" "SVN" ".svn" "save" "swank" "slime" "elpa" "snippets" "backups"
+                            "emacs-backup" "trash" "emacs-ide" "emacs-nav" "~" "#" "auto-save-list" "elc" "places"
+                            "elpa-to-submit/jabber/jabber.info" "thumbs" "oddmuse" ".newsrc-dribble" ".nnmail-cache"
+                            "#.newsrc-dribble#" ".svn" ".DS_Store" "image-dired" "elim" "session" "tramp" "history"
+                            "anything-c-adaptive-history" "trash" "yasnippet" "/js.js" "ido/.ido.last" "frequencies"))
