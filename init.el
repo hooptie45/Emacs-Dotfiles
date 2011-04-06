@@ -54,11 +54,11 @@
 
 (require 'magit)
 
- 
+
 (defadvice yank-pop (after indent-region activate)
   (if (member major-mode
               '(emacs-lisp-mode scheme-mode lisp-mode
-                                c-mode c++-mode objc-mode
+                c-mode c++-mode objc-mode
                 latex-mode plain-tex-mode))
       (let ((mark-even-if-inactive t))
         (indent-region (region-beginning) (region-end) nil))))
@@ -69,7 +69,7 @@
   (interactive "P")
   (if (and (eolp) (not (bolp)))
       (delete-indentation t)
-    (kill-line arg)))
+      (kill-line arg)))
 
 
 
@@ -79,9 +79,10 @@
 (setq comint-prompt-read-only t)
 
 (setq backup-directory-alist
-      '(("." . "~/.emacs.d/.emacs-backups")))
+      '((".*" . "~/.emacs.d/.emacs-backups")))
+
 (setq version-control t)
-(setq delete-old-versions 1)
+
 (setq kept-new-versions 1000)
 (setq kept-old-versions 1000)
 (setq backup-by-copying t)
@@ -89,7 +90,53 @@
           '(lambda ()
             (setq buffer-backed-up nil)))
 
+(load "~/.emacs.d/hooptie45.el" t)
+(load "~/.emacs.d/vendor/align" t)
+(require 'findr)
+(anything-force-update)
+(mapc (lambda (f) 
 
+        (save-window-excursion 
+          (find-file-read-only f)))
+      (findr "starter" (file-name-directory (buffer-file-name (current-buffer)))))
 
-
-
+(setf findr-skip-directory-regexp (regexp-opt my-ignore-dirs))
+(setf my-ignore-dirs  (list "loaddefs.el"
+                            "Trash"
+                            "vendor"
+                            ".git"
+                            ".svn"
+                            "save"
+                            "swank"
+                            "slime"
+                            "elpa"
+                            "snippets"
+                            "backups"
+                            "emacs-backup"
+                            "trash"
+                            "emacs-ide"
+                            "emacs-nav"
+                            "~"
+                            "#"
+                            "auto-save-list"
+                            "elc"
+                            "places"
+                            "elpa-to-submit/jabber/jabber.info"
+                            "thumbs"
+                            "oddmuse"
+                            ".newsrc-dribble"
+                            ".nnmail-cache"
+                            "#.newsrc-dribble#"
+                            ".svn"
+                            ".DS_Store"
+                            "image-dired"
+                            "elim"
+                            "session"
+                            "tramp"
+                            "history"
+                            "anything-c-adaptive-history"
+                            "trash"
+                            "yasnippet"
+                            "/js.js"
+                            "ido/.ido.last"
+                            "frequencies"))

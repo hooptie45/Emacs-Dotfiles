@@ -107,7 +107,7 @@ wdired
 (load custom-file 'noerror)
 (provide 'hooptie45)
 (require 'simple)
-
+(color-theme-nanarpuss)
 
 
 
