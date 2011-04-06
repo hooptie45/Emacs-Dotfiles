@@ -1003,10 +1003,10 @@ If the point is in a string or a comment, fill the paragraph instead,
   (if (or (paredit-in-string-p)
           (paredit-in-comment-p))
       (fill-paragraph argument)
-      (save-excursion
-        (end-of-defun)
-        (beginning-of-defun)
-        (indent-sexp))))
+    (save-excursion
+      (end-of-defun)
+      (beginning-of-defun)
+      (indent-sexp))))
 
 ;;;; Comment Insertion
 
