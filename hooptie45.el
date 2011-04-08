@@ -18,7 +18,7 @@
 
 (mapc '(lambda (f)
          (require f)) '(
-wdired
+			wdired
                         anything
                         dired+
                         doremi
@@ -95,7 +95,7 @@ wdired
 
 
 (setq-default dired-omit-files-p t) ; this is buffer-local variable
-    (setq dired-omit-files "^\\.?#\\|^\\.$\\|~$\\|backups\\|trash\\|^.git$")
+(setq dired-omit-files "^\\.?#\\|^\\.$\\|~$\\|backups\\|trash\\|^.git$")
 
 
 

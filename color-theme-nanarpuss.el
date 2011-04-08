@@ -67,7 +67,7 @@
      (flash-paren-face-region ((t (:foreground "Gray30"))))
      (font-lock-builtin-face ((t (:foreground "Green"))))
      (font-lock-comment-face ((t (:foreground "Gray30"))))
-     (font-lock-constant-face ((t (:foreground "green"))))
+     (font-lock-constant-face ((t (:foreground "white"))))
      (font-lock-doc-face ((t (:foreground "gray30"))))
      (font-lock-function-name-face ((t (:foreground "Orange" :weight bold))))
      (font-lock-keyword-face ((t (:foreground "Yellow"))))
@@ -76,8 +76,8 @@
      (font-lock-variable-name-face ((t (:foreground "LightGoldenrod"))))
      (font-lock-warning-face ((t (:bold t :foreground "Pink" :weight bold))))
      
-  
-       
+     
+     
      (fringe ((t (:background "grey10"))))
      (header-line ((t (:box (:line-width -1 :style released-button) :foreground "grey20" :background "grey90" :box nil))))
      (highlight ((t (:background "white"))))
@@ -90,7 +90,7 @@
      (mode-line ((t (:foreground "gray70" :background "white" ))))
      (mouse ((t (:background "white"))))
      (region ((t (:background "DodgerBlue"))))
-     (scroll-bar ((t (nil))))
+     
      (secondary-selection ((t (:background "darkslateblue"))))
      (show-block-face1 ((t (:background "gray10"))))
      (show-block-face2 ((t (:background "gray15"))))
@@ -112,16 +112,32 @@
                                                     (:line-width 1 :color "LimeGreen" :style solid))))))
      (widget-button-pressed-face ((t (:foreground "red"))))
      (widget-documentation-face ((t (:foreground "lime green"))))
-     (widget-field-face ((t (:background "White"
-                                         :foreground "black"
-                                         (:box
-                                          (:line-width 1 :color "lime green" :style solid))))))
+     (widget-field-face ((t
+                          (:box
+                           (:line-width 4 :color "gray14" :style nil)
+                           :foreground "gray70"
+                           :background "gray14"))))
      (widget-inactive-face ((t (:foreground "light gray"))))
      
      (idle-highlight ((t ( :inherit nil
                                     (:box
                                      (:line-width 1
                                                   :style solid))))))
+     (default ((t (:stipple nil :background "gray5" :foreground "gray90" :inverse-video nil :box nil :strike-through nil :overline nil :underline nil :slant normal :weight normal :height 160 :width normal :foundry "apple" :family "Monaco"))))
+     (anything-header ((t (:inherit header-line :background "#44f" :foreground "white" :height 1.2))))
+     (completions-common-part ((t (:inherit default :foreground "orangered"))))
+     (custom-button ((t (:background "light green" :foreground "dark olive green" :box 1))))
+     (custom-button-mouse ((t (:background "IndianRed1" :foreground "IndianRed4" :box 1))))
+     (custom-button-pressed ((t (:background "lightgrey" :foreground "black" :box (:line-width 2 :style pressed-button)))))
+     (custom-comment ((t (:background "Grey13" :foreground "LightSkyBlue1" :box 1))))
+     (custom-comment-tag ((t (:foreground "gray80"))))
+     (highlight ((t (:background "white" :foreground "black"))))
+     (magit-item-highlight ((((class color) (background dark)) (:background "gray13"))))
+     (magit-section-title ((t (:inherit magit-header :foreground "yellow" :weight bold))))
+     (minibuffer-prompt ((((background dark)) (:foreground "#44f"))))
+     (undo-tree-visualizer-active-branch-face ((((class color) (background dark)) (:foreground "orangered" :weight bold))))
+     (widget-field ((t (:background "White" :foreground "black" :box (:line-width 1 :color "black")))))
+
      (hl-line ((t (:background "Gray10" ))))
      (ido-first-match ((t (:foreground "orange" ))))
      (ido-subdir ((t (:foreground "Green" ))))
@@ -129,3 +145,87 @@
 (text-scale-adjust 1)
 
 (provide 'color-theme-nanarpuss)
+;; (default
+;;     ((t (:stipple nil
+;;                   :background "gray5"
+;;                   :foreground "gray90"
+;;                   :inverse-video nil
+;;                   :box nil
+;;                   :strike-through nil
+;;                   :overline nil
+;;                   :underline nil
+;;                   :slant normal
+;;                   :weight normal
+;;                   :height 160
+;;                   :width normal
+;;                   :foundry "apple"
+;;                   :family "Monaco"))))
+
+;; (anything-header
+;;  ((t (
+;;       :inherit header-line
+;;                :background "#44f"
+
+;;                :foreground "white"
+;;                :height 1.2))))
+
+;; (completions-common-part
+;;  ((t (
+;;       :inherit default
+;;                :foreground "orangered"))))
+
+;; (custom-button
+;;  ((t (
+;;       :background "light green"
+;;                   :foreground "dark olive green"
+;;                   :box 1))))
+
+;; (custom-button-mouse
+;;  ((t (
+;;       :background "IndianRed1"
+;;                   :foreground "IndianRed4"
+;;                   :box 1))))
+
+;; (custom-button-pressed
+;;  ((((type x w32 ns) (class color)) (
+;;                                     :background "lightgrey"
+;;                                                 :foreground "black"
+;;                                                 :box (
+;;                                                       :line-width 2
+;;                                                                   :style pressed-button)))))
+
+;; (custom-comment
+;;  ((t (
+;;       :background "Grey13"
+;;                   :foreground "LightSkyBlue1"
+;;                   :box 1))))
+
+;; (custom-comment-tag ((((class color) (background dark)) (
+;;                                                          :foreground "gray80"))))
+
+;; (highlight
+;;  ((t (
+;;       :background "white"
+;;                   :foreground "black"))))
+
+;; (magit-item-highlight
+;;  (((class color) (background dark)) (
+;;                                      :background "gray13"))))
+
+;; (magit-section-title
+;;  ((t (
+;;       :inherit magit-header
+;;                :foreground "yellow"
+;;                :weight bold))))
+
+;; (minibuffer-prompt
+;;  ((((background dark)) (
+;;                         :foreground "#44f"))))
+
+;; (widget-field
+;;  ((t (
+;;       :background "White"
+;;                   :foreground "black"
+;;                   :box (
+;;                         :line-width 1
+;;                                     :color "black"))))))

@@ -7,14 +7,19 @@
 ;; init.el, r for this file) to jump to it.
 
 ;; You should add registers here for the files you edit most often.
-
-(dolist (r `((?i (file . ,(concat dotfiles-dir "init.el")))
+(dolist (r `(
+             (?i (file . ,(concat dotfiles-dir "init.el")))
+             (?t (file . ,(concat dotfiles-dir "color-theme-nanarpuss.el")))
+             (?c (file . ,(concat dotfiles-dir "custom.el")))
              (?b (file . ,(concat dotfiles-dir "starter-kit-bindings.el")))
              (?h (file . ,(concat dotfiles-dir "hooptie45.el")))
              (?r (file . ,(concat dotfiles-dir "starter-kit-registers.el")))
-             (?d (file . ,(concat dotfiles-dir "starter-kit-defuns.el")))))
+             (?d (file . ,(concat dotfiles-dir "starter-kit-defuns.el")))
+             )
+         )
   
-  (set-register (car r) (cadr r)))
+  (set-register (car r) (cadr r))
+  )
 
 (provide 'starter-kit-registers)
 ;;; starter-kit-registers.el ends here

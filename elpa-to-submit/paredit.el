@@ -213,6 +213,8 @@ Signal an error if no clause matches."
   (put 'paredit-ignore-sexp-errors 'lisp-indent-function 0)
 
   nil)
+
+
 
 ;;;; Minor Mode Definition
 
@@ -277,6 +279,8 @@ Paredit behaves badly if parentheses are imbalanced, so exercise
 ;;; where key[s] is either a single string suitable for passing to KBD
 ;;; or a list of such strings.  Entries in this list may also just be
 ;;; strings, in which case they are headings for the next entries.
+
+
 
 (progn (setq paredit-commands
  `(
@@ -1003,10 +1007,10 @@ If the point is in a string or a comment, fill the paragraph instead,
   (if (or (paredit-in-string-p)
           (paredit-in-comment-p))
       (fill-paragraph argument)
-    (save-excursion
-      (end-of-defun)
-      (beginning-of-defun)
-      (indent-sexp))))
+      (save-excursion
+        (end-of-defun)
+        (beginning-of-defun)
+        (indent-sexp))))
 
 ;;;; Comment Insertion
 

@@ -1,23 +1,76 @@
 
 (load "starter-kit-defuns-builtin.el")
 
+
+
+
+
+(defun each-point-call-macro ()
+  (interactive)
+  (at-each-point call-last-kbd-macro))
+
+(defun enlarge-window-horizontally-cmd ()
+  (interactive)
+
+  (enlarge-window-horizontally -4))
+
+
+(defun split-window-vertically-cmd ()
+  (interactive)
+  (unwind-protect
+
+       (enlarge-window -2)
+    (split-window-vertically)))
+
+(defun enlarge-window-cmd ()
+
+  (interactive)
+  (unwind-protect
+       (enlarge-window 2)
+    (split-window-vertically)))
+
+
+(defun insert-parens-cmd (d ) 
+  (interactive "pNum:")
+  
+  (save-excursion
+    (dotimes (c (or d 1))
+      (unwind-protect 
+           (save-excursion
+             (paredit-wrap-round (or c 1))
+
+             (backward-sexp (or c 1)))
+        (if (and (not (= d 1))
+                 (not (= d c)))
+            (save-excursion
+
+              (backward-sexp (- d c))
+              (paredit-wrap-round (- d c))))))))
+
+
+
+
 (defun replace-in-defun (s)
   (interactive "sReplace with: ")
 
   (replace-w-in-r (thing-nearest-point 'sexp)
                   (car kill-ring)
+
                   (bounds-of-thing-nearest-point 'defun)))
 
 (defun get-word-at-mark ()
   (interactive)
+
   (save-excursion
     (progn
       (goto-char (car mark-ring))
       (word-at-point))))
 
+
 (defun clear-reg (r)
   (interactive "cRegister: ")
   (set-register r nil))
+
 
 (defun push-reg (r v)
   (set-register r (cons v (get-register r))))
@@ -31,20 +84,6 @@
       (car reg))))
 
 
-(defun my-comment ()
-  (interactive)
-  (save-excursion
-    (kill-region (point-at-bol) (point-at-eol))
-    (progn               
-      (insert ";; ")
-      (insert-char ?- 77)
-      (newline)
-      (insert ";; |") (yank)
-      (newline)
-      (insert ";; ")
-      (insert-char ?- 77)----------------------------------------------------------------------------------------------------------------------------------------------------------)
-    )
-  (line-move 1))
 
 
 (defun push-point (&optional r)

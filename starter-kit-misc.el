@@ -127,10 +127,7 @@
      (when (not window-system)
        (set-face-background 'magit-item-highlight "white"))))
 
-(eval-after-load 'mumamo
-  '(eval-after-load 'zenburn
-     '(ignore-errors (set-face-background
-                      'mumamo-background-chunk-submode "gray22"))))
+
 
 ;; Platform-specific stuff
 (when (eq system-type 'darwin)
