@@ -10,7 +10,7 @@
 (require 'color-theme)
 (require 'color-theme-nanarpuss)
 (color-theme-nanarpuss)
-;(require 'find-func-extension)
+(require 'find-func-extension)
 (require 'find-func+)
 (require 'align (concat dotfiles-dir "align.el"))
 
@@ -128,8 +128,7 @@
       (nanarpuss-help-window-open (face-at-point) (face-attr-construct (face-all-attributes (or (get-char-property pos  'read-face-name)
                                                                              (get-char-property pos 'face)))))
       (message "BLANK")))
-(magit-insert-pending-commits)
-(magit-stage-all t)
+
 
 (defun foreground-color-at-point ()
   "Return the foreground color of the character after point."
