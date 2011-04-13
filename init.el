@@ -2,14 +2,15 @@
 (setq mac-option-modifier 'hyper)
 (setq mac-function-modifier 'super)
 (find-file "~/.emacs.d/init.el")
-(setq dotfiqles-dir "~/.emacs.d/")
+(setq dotfiles-dir "~/.emacs.d/")
 (add-to-list 'load-path "~/.emacs.d")
+(add-to-list 'load-path "~/elisp/")
 (normal-top-level-add-subdirs-to-load-path)
 (require 'paredit)
 (require 'color-theme)
 (require 'color-theme-nanarpuss)
 (color-theme-nanarpuss)
-(require 'find-func-extension)
+;(require 'find-func-extension)
 (require 'find-func+)
 (require 'align (concat dotfiles-dir "align.el"))
 
@@ -41,85 +42,6 @@
 
 
 (require 'magit)
-
-;; find . \( -path \*/backups -o -path \*/emacs-backups
-;; -o -path \*/\*/trash/\*
-;; -o -path \*/SCCS
-;; -o -path \*/RCS
-;; -o -path \*/CVS
-;; -o -path \*/MCVS
-;; -o -path \*/.svn
-;; -o -path \*/.git
-;; -o -path \*/.hg
-;; -o -path \*/.bzr
-;; -o -path \*/_MTN
-;; -o -path \*/_darcs
-;; -o -path \*/\{arch\}
-;; -o -path \*/ido \) -prune
-;; -o \( -name target
-;; -o -name \!\*
-;; -o -name .\#\*
-;; -o -name \*.o
-;; -o -name \*\~
-;; -o -name .ido.last
-;; -o -name \*.bin
-;; -o -name \*.lbin
-;; -o -name \*.so
-;; -o -name \*.a
-;; -o -name \*.ln
-;; -o -name \*.blg
-;; -o -name \*.bbl
-;; -o -name \*.elc
-;; -o -name \*.lof
-;; -o -name \*.glo
-;; -o -name \*.idx
-;; -o -name \*.lot
-;; -o -name \*.fmt
-;; -o -name \*.tfm
-;; -o -name \*.class
-;; -o -name \*.fas
-;; -o -name \*.lib
-;; -o -name \*.mem
-;; -o -name \*.x86f
-;; -o -name \*.sparcf
-;; -o -name \*.fasl
-;; -o -name \*.ufsl
-;; -o -name \*.fsl
-;; -o -name \*.dxl
-;; -o -name \*.pfsl
-;; -o -name \*.dfsl
-;; -o -name \*.p64fsl
-;; -o -name \*.d64fsl
-;; -o -name \*.dx64fsl
-;; -o -name \*.lo
-;; -o -name \*.la
-;; -o -name \*.gmo
-;; -o -name \*.mo
-;; -o -name \*.toc
-;; -o -name \*.aux
-;; -o -name \*.cp
-;; -o -name \*.fn
-;; -o -name \*.ky
-;; -o -name \*.pg
-;; -o -name \*.tp
-;; -o -name \*.vr
-;; -o -name \*.cps
-;; -o -name \*.fns
-;; -o -name \*.kys
-;; -o -name \*.pgs
-;; -o -name \*.tps
-;; -o -name \*.vrs
-;; -o -name \*.pyc
-;; -o -name \*.pyo
-;; -o -name \*\!
-;; -o -name \*.dmg \) -prune
-;; -o  -type f
-
-;; ! -name !*
-;; ! -path */trash/*
-;; ! -path */emacs-backup/*
-;; ! -path */backups/*
-;; \( -iname \*.el \) -exec grep -i -nH -e toggle-fullscreen {} /dev/null \;
 
 (defadvice yank-pop (after indent-region activate)
   (if (member major-mode
@@ -189,32 +111,7 @@
               try-expand-dabbrev-visible
               try-expand-whole-kill)))
 (setq mode-line-in-non-selected-windows t)
-(setf mode-line-format
-      '(" "
-        #(" " 0 1
-          (help-echo ""))
-        mode-line-mule-info
-        mode-line-client
-        mode-line-modified
-        mode-line-remote
-        mode-line-frame-identification
-        mode-line-buffer-identification
-        #("  %s " 0 3 ((face  custom-state)))
-        mode-line-position
-        (vc-mode vc-mode)
-        #("  " 0 2
-          (help-echo "mouse-1: Select (describe-text-properties to resize)\nmouse-2: Make current window occupy the whole frame\nmouse-3: Remove current window from display"))
-        mode-line-modes
-        (which-func-mode
-         ("%s" which-func-format
-          #("--" 0 2
-            (help-echo "mouse-1: Select (drag to resize)\nmouse-2: Make current window occupy the whole frame\nmouse-3: Remove current window from display"))))
-        (global-mode-string
-         ("" global-mode-string
-          #("--" 0 2
-            (help-echo "mouse-1: Select (drag to resize)\nmouse-2: Make current window occupy the whole frame\nmouse-3: Remove current window from display"))))
-        #("-%-" 0 3
-          (help-echo "mouse-1: Select (drag to resize)\nmouse-2: Make current window occupy the whole frame\nmouse-3: Remove current window from display"))))
+
 
 (global-set-key (kbd "H-l") '(lambda (p) 
                               (interactive "d")
@@ -231,6 +128,9 @@
       (nanarpuss-help-window-open (face-at-point) (face-attr-construct (face-all-attributes (or (get-char-property pos  'read-face-name)
                                                                              (get-char-property pos 'face)))))
       (message "BLANK")))
+(magit-insert-pending-commits)
+(magit-stage-all t)
+
 (defun foreground-color-at-point ()
   "Return the foreground color of the character after point."
   ;; `face-at-point' alone is not sufficient.  It only gets named faces.
