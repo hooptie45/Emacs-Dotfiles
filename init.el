@@ -1,5 +1,17 @@
-(setq mac-command-modifier 'meta)
+;; Part of the Emacs Starter Kit
+;;
+;; This is the first thing to get loaded.
+;;
+;; "Emacs outshines all other editing software in approximately the
+;; same way that the noonday sun does the stars. It is not just bigger
+;; and brighter; it simply makes everything else vanish."
+;; -Neal Stephenson, "In the Beginning was the Command Line"
+
+;; Turn off mouse interface early in startup to avoid momentary display
+;; You really don't need these; trust me.
+
 (setq mac-option-modifier 'hyper)
+(setq mac-command-modifier 'meta)
 (setq mac-function-modifier 'super)
 (find-file "~/.emacs.d/init.el")
 (setq dotfiles-dir "~/.emacs.d/")
