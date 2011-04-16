@@ -389,7 +389,7 @@ are its boundary."
 ;; A monkeypatch to cause annotate to ignore whitespace
 (defun vc-git-annotate-command (file buf &optional rev)
   (let ((name (file-relative-name file)))
-    (vc-git-command buf 0 name "blame" "- w" rev)))
+    (vc-git-command buf 0 name "blame" "-w" rev)))
 (defun replace-in-sexp (s)
   (interactive "sReplace with: ")
   (replace-in-f s (bounds-of-thing-nearest-point 'sexp)))

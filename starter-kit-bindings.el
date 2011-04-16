@@ -151,7 +151,8 @@
 
 (lazy-set-key
  
- '(("H-r"         . replace-word)
+ '(
+   ("H-r"         . replace-word)
    ("H-r"         . replace-word)
    ("M-/" . hippie-expand)
    ("H-=" . (lambda () 
@@ -194,9 +195,15 @@
    ([mouse-3]     . dired-jump)
    ("M-z"         . dired-jump)
    ("H-p"         . push-point)
+   ("M-j" . jump-to-register)
    ("H-w"         . push-word)
    ("M->"         . pop-tag-mark)
-   ("H-r" . anything-show-kill-ring)))
+   ("H-r" . anything-show-kill-ring))
+ )
+
+
+
+
 
 (lazy-set-key '(("C-k" . (lambda ()
                            (interactive)

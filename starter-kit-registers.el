@@ -15,7 +15,9 @@
              (?h (file . ,(concat dotfiles-dir "hooptie45.el")))
              (?r (file . ,(concat dotfiles-dir "starter-kit-registers.el")))
              (?d (file . ,(concat dotfiles-dir "starter-kit-defuns.el")))
-             )
+             (?n (file . ,(concat dotfiles-dir "notes.org")))
+             (?s ,(set-marker (make-marker) 1
+                             (get-buffer-create "*scratch*"))))
          )
   
   (set-register (car r) (cadr r))
@@ -23,3 +25,4 @@
 
 (provide 'starter-kit-registers)
 ;;; starter-kit-registers.el ends here
+

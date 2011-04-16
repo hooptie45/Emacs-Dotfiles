@@ -13,11 +13,13 @@
 (setq mac-option-modifier 'hyper)
 (setq mac-command-modifier 'meta)
 (setq mac-function-modifier 'super)
+
 (find-file "~/.emacs.d/init.el")
 (setq dotfiles-dir "~/.emacs.d/")
 (add-to-list 'load-path "~/.emacs.d")
 (add-to-list 'load-path "~/elisp/")
 (normal-top-level-add-subdirs-to-load-path)
+
 (require 'paredit)
 (require 'color-theme)
 (require 'color-theme-nanarpuss)
@@ -147,4 +149,5 @@
     (message "%s" (color-theme-spec face))))
 
 (menu-bar-mode 1)
+(menu-bar-describe-menu)
 (scroll-bar-mode -1)

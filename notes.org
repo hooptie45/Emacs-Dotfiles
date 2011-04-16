@@ -1,0 +1,19 @@
+* keymaps
+          (setq dired-mode-map (make-keymap))
+          (suppress-keymap dired-mode-map)
+          (define-key dired-mode-map "r" 'dired-rename-file)
+          (define-key dired-mode-map "\C-d" 'dired-flag-file-deleted)
+          (define-key dired-mode-map "d" 'dired-flag-file-deleted)
+          (define-key dired-mode-map "v" 'dired-view-file)
+          (define-key dired-mode-map "e" 'dired-find-file)
+          (define-key dired-mode-map "f" 'dired-find-file)
+          ...
+
+* Faces
+(set (make-local-variable 'face-remapping-alist)
+          '((default :foreground "white" :background "black")))
+** Props
+   (
+
+   
+   

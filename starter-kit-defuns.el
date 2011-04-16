@@ -1,6 +1,58 @@
 
 (load "starter-kit-defuns-builtin.el")
 
+(defun colorize-theme ()
+  (interactive)
+  (save-excursion 
+    (let* ((word (progn
+                   (paredit-forward)
+                   (paredit-backward)
+                   (forward-word 1)
+                   (thing-at-point-with-bounds 'sexp))))
+      
+      (add-text-properties (cadr word) (cddr word) `(font-lock-face ,(car word))))))
+
+(defun np-color-all ()
+  (interactive)
+  (while (>= (current-line) 14) 
+    (colorize-theme)
+    (paredit-backward)))
+
+(defun jump-to-color ()
+  (interactive)
+  (hl-line-mode -1)
+  (let* ((face (or (get-char-property (point) 'read-face-name)
+                   (get-char-property (point) 'face)
+                   'default)))
+    (if (not (eq face 'default))
+        (progn
+          (switch-to-buffer "color-theme-nanarpuss.el")
+          (goto-char (point-min))
+          
+          (if (search-forward "color-theme-nanarpuss")
+              (if (search-forward (symbol-name face) nil t)
+                  (progn
+                    (paredit-backward-up)
+                    (paredit-kill)
+                    (delete-blank-lines)
+                    (propertize (symbol-name face) )
+                    (cl-prettyprint (color-theme-spec face))
+                    (paredit-backward)
+                    (forward-word 1)
+                    (add-text-properties
+                     (car (bounds-of-thing-at-point 'sexp))
+                     (cdr (bounds-of-thing-at-point 'sexp)) `(font-lock-face ,face)))
+                  
+                  (progn (beginning-of-defun)
+                         (paredit-forward)
+                         (paredit-backward-down 3)
+                         (cl-prettyprint (color-theme-spec face))
+                         (paredit-backward)
+                         (forward-word 1)
+                         (add-text-properties (car (bounds-of-thing-at-point 'sexp)) (cdr (bounds-of-thing-at-point 'sexp)) `(font-lock-face ,face)))))
+          (hl-line-mode 1)
+          (indent-buffer)))))
+
 
 
 
