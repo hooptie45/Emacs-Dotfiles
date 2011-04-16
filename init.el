@@ -123,27 +123,16 @@
 
 (defun np-theme-add (pos)
   (interactive "d")
-  
-  (if (or (text-properties-at pos) (overlays-at pos))
-      (nanarpuss-help-window-open (face-at-point) (face-attr-construct (face-all-attributes (or (get-char-property pos  'read-face-name)
-                                                                             (get-char-property pos 'face)))))
-      (message "BLANK")))
+
+  (message "%s" (text-properties-at pos)))
 
 
-(defun foreground-color-at-point ()
-  "Return the foreground color of the character after point."
-  ;; `face-at-point' alone is not sufficient.  It only gets named faces.
-  ;; Need also pick up any face properties that are not associated with named faces.
-  (let ((face (or (face-at-point)
-                  (get-char-property (point) 'read-face-name)
-                  (get-char-property (point) 'face))))
+(defun np-face-at-pt (pt)
+  (interactive "d")
+  (let* ((face (or (get-char-property (point) 'read-face-name)
+                   (get-char-property (point) 'face)
+                   'default)))
+    (message "%s" (color-theme-spec face))))
 
-    (cond ((and face (symbolp face))
-           (let ((value (face-foreground face nil 'default)))
-             (if (member value '("unspecified-fg" "unspecified-bg"))
-                 nil
-                 value)))
-          ((consp face)
-           (cond ((memq 'foreground-color face) (cdr (memq 'foreground-color face)))
-                 ((memq ':foreground face) (cadr (memq ':foreground face)))))
-          (t nil))))
+(menu-bar-mode 1)
+(scroll-bar-mode -1)
