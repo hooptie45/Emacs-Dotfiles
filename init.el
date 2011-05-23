@@ -1,40 +1,90 @@
-;; Part of the Emacs Starter Kit
-;;
-;; This is the first thing to get loaded.
-;;
-;; "Emacs outshines all other editing software in approximately the
-;; same way that the noonday sun does the stars. It is not just bigger
-;; and brighter; it simply makes everything else vanish."
-;; -Neal Stephenson, "In the Beginning was the Command Line"
+;; ;; Part of the Emacs Starter Kit
+;; ;;
+;; ;; This is the first thing to get loaded.
+;; ;;
+;; ;; "Emacs outshines all other editing software in approximately the
+;; ;; same way that the noonday sun does the stars. It is not just bigger
+;; ;; and brighter; it simply makes everything else vanish."
+;; ;; -Neal Stephenson, "In the Beginning was the Command Line"
 
-;; Turn off mouse interface early in startup to avoid momentary display
-;; You really don't need these; trust me.
+;; ;; Turn off mouse interface early in startup to avoid momentary display
+;; ;; You really don't need these; trust me.
 
 (setq mac-option-modifier 'hyper)
 (setq mac-command-modifier 'meta)
 (setq mac-function-modifier 'super)
+(setq package-archives '(("ELPA" . "http://tromey.com/elpa/") 
+                         ("gnu" . "http://elpa.gnu.org/packages/")))
+
+(setq ring-bell-function 'ignore)
+(setq visual-bell nil)
+(setq visible-bell nil)
+(setq ring-bell-function 'ignore)
+(setq visual-bell nil)
+(setq visible-bell nil)
 
 (find-file "~/.emacs.d/init.el")
-(setq dotfiles-dir "~/.emacs.d/")
+
+
+;; (defconst package-archive-base "http://tromey.com/elpa/"
+;;   "Base URL for the package archive.
+;; Ordinarily you should not need to edit this.
+;; The default points to ELPA, the Emacs Lisp Package Archive.
+;; Note that some code in package.el assumes that this is an http: URL.")
+;; 
+
+ (setq dotfiles-dir "~/.emacs.d/")
+
 (add-to-list 'load-path "~/.emacs.d")
+;; (add-to-list 'load-path "~/.emacs.d/predictive")
+;; (add-to-list 'load-path "~/.emacs.d/auto-complete")
+
+;; (add-to-list 'load-path "~/.emacs.d/company")
+;; (add-to-list 'load-path "~/.emacs.d/elpa/emms-3.0")
 (add-to-list 'load-path "~/elisp/")
 (normal-top-level-add-subdirs-to-load-path)
+(require 'color-theme)
+
+(scroll-bar-mode -1)
+(load "color-theme-nanarpuss.el")
+(color-theme-nanarpuss)
+
+ (require 'emms-setup)
+;; (require 'emms-setup)
+ (require 'emms-streams)
+
+
+(add-to-list 'emms-player-list 'emms-player-mpd)
+(require 'emms-player-simple)
+(require 'emms-source-file)
+(require 'emms-source-playlist)
+(setq emms-player-list '(emms-player-mpg321
+                         emms-player-ogg123
+                         emms-player-mplayer))
+;; (setq emms-info-asynchronously nil)
+(setq emms-playlist-buffer-name "*Music*")
+
+(emms-all)
+(emms-default-players)
+(setq emms-playing-time 1)
 
 (require 'paredit)
 (require 'color-theme)
-(require 'color-theme-nanarpuss)
-(color-theme-nanarpuss)
+
+
 (require 'find-func-extension)
 (require 'find-func+)
 (require 'align (concat dotfiles-dir "align.el"))
-
+(require 'anything-config)
+(global-set-key (kbd "M-x") 'execute-extended-command)
 (require 'cl)
 (require 'saveplace)
+
 (require 'ffap)
 (require 'uniquify)
 (require 'paredit)
+(require 'inf-ruby)
 (require 'starter-kit-defuns)
-(require 'clojure-mode)
 (require 'starter-kit-misc)
 (require 'anything)
 (require 'anything-config)
@@ -45,109 +95,80 @@
 (require 'starter-kit-registers)
 (require 'starter-kit-eshell)
 (require 'starter-kit-lisp)
-(require 'starter-kit-perl)
-(require 'starter-kit-ruby)
 (require 'starter-kit-js)
 (require 'starter-kit-bindings)
-(require 'hooptie45)
+
 (server-start)
 (menu-bar-mode)
-(anything-read-string-mode -1)
+;;(anything-read-string-mode -1)
+
 
 
 (require 'magit)
-
-(defadvice yank-pop (after indent-region activate)
-  (if (member major-mode
-              '(emacs-lisp-mode scheme-mode lisp-mode
-                c-mode c++-mode objc-mode
-                latex-mode plain-tex-mode))
-      (let ((mark-even-if-inactive t))
-        (indent-region (region-beginning) (region-end) nil))))
-
-(defun kill-and-join-forward (&optional arg)
-  "If at end of line, join with following; otherwise kill line.
-    Deletes whitespace at join."
-  (interactive "P")
-  (if (and (eolp) (not (bolp)))
-      (delete-indentation t)
-      (kill-line arg)))
+(require 'starter-kit-bindings)
+(require 'ido)
+(ido-mode 1)
+(ido-everywhere 1)
 
 
 
-(require 'imenu)
-(require 'ansi-color)
-(add-hook 'shell-mode-hook 'ansi-color-for-comint-mode-on)
-(setq comint-prompt-read-only t)
+;; (require 'imenu)
+;; (require 'ansi-color)
+;; (add-hook 'shell-mode-hook 'ansi-color-for-comint-mode-on)
+;; (setq comint-prompt-read-only t)
 
-(setq backup-directory-alist
-      '((".*" . "~/.emacs.d/.emacs-backups")))
+;; (setq backup-directory-alist
+;;       '((".*" . "~/.emacs.d/.emacs-backups")))
 
-(setq version-control t)
+;; (setq version-control t)
 
-(setq kept-new-versions 1000)
-(setq kept-old-versions 1000)
-(setq backup-by-copying t)
-(setf my-ignore-dirs  (list "loaddefs.el " "Trash" "vendor" ".git" "SVN" ".svn" "save" "swank" "slime" "elpa" "snippets" "backups"
-                            "emacs-backup" "trash" "emacs-ide" "emacs-nav" "~" "#" "auto-save-list" "elc" "places"
-                            "elpa-to-submit/jabber/jabber.info" "thumbs" "oddmuse" ".newsrc-dribble" ".nnmail-cache"
-                            "#.newsrc-dribble#" ".svn" ".DS_Store" "image-dired" "elim" "session" "tramp" "history"
-                            "anything-c-adaptive-history" "trash" "yasnippet" "/js.js" "ido/.ido.last" "frequencies"))
-(add-hook 'before-save-hook 
-          '(lambda ()
-            (setq buffer-backed-up nil)))
-
-
-(setf findr-skip-directory-regexp (regexp-opt my-ignore-dirs))
-(setf grep-find-ignored-directories (regexp-opt my-ignore-dirs))
-(setf slime-close-all-parens-in-sexp)
-(setf vc-ignore-vc-files)
-(setf ido-ignore-directories-merge)
-(setf ido-ignore-buffers)
-(setf iswitchb-buffer-ignore)
+;; (setq kept-new-versions 1000)
+;; (setq kept-old-versions 1000)
+;; (setq backup-by-copying t)
+;; (setf my-ignore-dirs  (list "loaddefs.el " "Trash" "vendor" ".git" "SVN" ".svn" "save" "swank" "slime" "elpa" "snippets" "backups"
+;;                              "emacs-backup" "trash" "emacs-ide" "emacs-nav" "~" "#" "auto-save-list" "elc" "places"
+;;                              "elpa-to-submit/jabber/jabber.info" "thumbs" "oddmuse" ".newsrc-dribble" ".nnmail-cache"
+;;                              "#.newsrc-dribble#" ".svn" ".DS_Store" "image-dired" "elim" "session" "tramp" "history"
+;;                              "anything-c-adaptive-history" "trash" "yasnippet" "/js.js" "ido/.ido.last" "frequencies"))
+;; (add-hook 'before-save-hook 
+;;           '(lambda ()
+;;              (setq buffer-backed-up nil)))
 
 
-(setf grep-find-ignored-directories (regexp-opt my-ignore-dirs))
-(setf hippie-expand-verbose nil)
-(buffer-enable-undo)
-(setf another-line-p t)
-(global-undo-tree-mode)
-(setq hippie-expand-try-functions-list     
-      (quote (try-expand-dabbrev
-              try-expand-line-all-buffers
-              try-complete-lisp-symbol
-              try-complete-lisp-symbol-partially
-              yas/hippie-try-expand
-              try-expand-dabbrev-from-kill
-              try-expand-all-abbrevs
-              try-expand-dabbrev-all-buffers
-              try-expand-list-all-buffers
-              try-expand-dabbrev-visible
-              try-expand-whole-kill)))
-(setq mode-line-in-non-selected-windows t)
+;; (setf findr-skip-directory-regexp (regexp-opt my-ignore-dirs))
+;; (setf grep-find-ignored-directories (regexp-opt my-ignore-dirs))
+;; (setf slime-close-all-parens-in-sexp)
+;; (setf vc-ignore-vc-files)
+;; (setf ido-ignore-directories-merge)
+;; (setf ido-ignore-buffers)
+;; (setf iswitchb-buffer-ignore)
 
 
-(global-set-key (kbd "H-l") '(lambda (p) 
-                              (interactive "d")
-                              
-                              (cl-prettyprint (thing-nearest-point 'defun))
-                              (describe-text-properties p)))
+;; (setf grep-find-ignored-directories (regexp-opt my-ignore-dirs))
+;; (setf hippie-expand-verbose nil)
+;; (buffer-enable-undo)
+;; (setf another-line-p t)
 
 
 
-(defun np-theme-add (pos)
-  (interactive "d")
-
-  (message "%s" (text-properties-at pos)))
 
 
-(defun np-face-at-pt (pt)
-  (interactive "d")
-  (let* ((face (or (get-char-property (point) 'read-face-name)
-                   (get-char-property (point) 'face)
-                   'default)))
-    (message "%s" (color-theme-spec face))))
 
-(menu-bar-mode 1)
-(menu-bar-describe-menu)
-(scroll-bar-mode -1)
+(setq-default find-function-C-source-directory "/opt/local/var/macports/distfiles/emacs-app/emacs-23.3/src")
+
+;; (global-company-mode)
+
+;; ;;; Supernews
+;; ;; agile.infusion@gmail.com
+;; ;; tr4cc10u
+;; ;;
+;; ;;; Gmail (hooptie45)
+;; ;; i5H9tDgc880s
+;; ;; hooptie45@gmail.com
+;; ;;; Dreamhost-API (Shaun-Hannah.com)
+;; ;; 5B7N4FJN9VCSPWHU
+;; ;; https://api.dreamhost.com/
+;; ;;   -> key 5B7N4FJN9VCSPWHU
+;; ;;   -> cmd 
+;; ;;   -> unique_id
+;; (require 'emms)
