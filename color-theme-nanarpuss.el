@@ -107,11 +107,12 @@
      (widget-field ((t (:background "White" :foreground "black" :box (:line-width 1 :color "black")))))
      (widget-field-face ((t (:box (:line-width 4 :color "gray14" :style nil) :foreground "gray70" :background "gray14"))))
      (widget-inactive-face ((t (:foreground "light gray"))))   
-     (widget-single-line-field-face ((t (:background "dim gray"))))
+ 
      (diff-hunk-header ((t (:background "gray30" :foreground "orange"))))
 
      (diff-header ((t (:background "gray30" :foreground "yellow"))))
-     )))     (widget-single-line-field-face ((t (:background "dim gray")))))))
+     )))
+
 
 
 (defun colorize-theme ()

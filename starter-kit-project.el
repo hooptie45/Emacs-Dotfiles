@@ -1,1 +1,0 @@
-(provide 'starter-kit-project)

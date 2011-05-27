@@ -13,9 +13,10 @@
 (setq mac-option-modifier 'hyper)
 (setq mac-command-modifier 'meta)
 (setq mac-function-modifier 'super)
+(normal-top-level-add-subdirs-to-load-path)
 (setq package-archives '(("ELPA" . "http://tromey.com/elpa/") 
                          ("gnu" . "http://elpa.gnu.org/packages/")))
-
+(setq dotfiles-dir "~/.emacs.d/")
 (setq ring-bell-function 'ignore)
 (setq visual-bell nil)
 (setq visible-bell nil)
@@ -24,6 +25,40 @@
 (setq visible-bell nil)
 
 (find-file "~/.emacs.d/init.el")
+(load "~/.emacs.d/package.el")
+(package-initialize)
+
+(add-to-list 'load-path "~/.emacs")
+(add-to-list 'load-path "~/.emacs.d/groups")
+(add-to-list 'load-path "~/.emacs.d/emacs-wiki-files")
+
+;(load "~/.emacs.d/vendor/color-theme-6.6.0/themes/color-theme-library")
+                                        ;(color-theme-clarity)
+
+(let ((path))
+  (setq path (concat "~/.gem/ruby/1.8/bin:"
+                     "~/bin:"
+                     "~/src/homebrew/bin:"
+                     "/usr/local/bin:"
+                     "/usr/bin:"
+                     "/opt/local/bin:"
+                     "/bin"))
+  (setenv "PATH" path))
+
+
+
+(require 'company "~/.emacs.d/company/company.el")
+
+
+(require 'starter-kit-company)
+
+(setq-default dired-omit-files-p t) ; this is buffer-local variable
+(setq dired-omit-files "^\\.?#\\|^\\.$\\|~$\\|backups\\|trash\\|^.git$")
+
+
+
+(setq custom-file (concat dotfiles-dir "custom.el"))
+
 
 
 ;; (defconst package-archive-base "http://tromey.com/elpa/"
@@ -33,50 +68,44 @@
 ;; Note that some code in package.el assumes that this is an http: URL.")
 ;; 
 
- (setq dotfiles-dir "~/.emacs.d/")
+ 
 
-(add-to-list 'load-path "~/.emacs.d")
+
 ;; (add-to-list 'load-path "~/.emacs.d/predictive")
 ;; (add-to-list 'load-path "~/.emacs.d/auto-complete")
 
 ;; (add-to-list 'load-path "~/.emacs.d/company")
 ;; (add-to-list 'load-path "~/.emacs.d/elpa/emms-3.0")
 (add-to-list 'load-path "~/elisp/")
-(normal-top-level-add-subdirs-to-load-path)
-(require 'color-theme)
+
+
 
 (scroll-bar-mode -1)
-(load "color-theme-nanarpuss.el")
+(require 'color-theme)
+(load "~/.emacs.d/color-theme-nanarpuss.el")
 (color-theme-nanarpuss)
+(require 'emms)
+(require 'emms-player-mplayer)
+(require 'emms-setup)
 
- (require 'emms-setup)
-;; (require 'emms-setup)
- (require 'emms-streams)
+(require 'emms-setup)
+(require 'emms-streams)
 
 
-(add-to-list 'emms-player-list 'emms-player-mpd)
-(require 'emms-player-simple)
-(require 'emms-source-file)
-(require 'emms-source-playlist)
-(setq emms-player-list '(emms-player-mpg321
-                         emms-player-ogg123
-                         emms-player-mplayer))
-;; (setq emms-info-asynchronously nil)
-(setq emms-playlist-buffer-name "*Music*")
 
-(emms-all)
-(emms-default-players)
-(setq emms-playing-time 1)
+
+
 
 (require 'paredit)
-(require 'color-theme)
 
+(emms-all)
 
 (require 'find-func-extension)
 (require 'find-func+)
 (require 'align (concat dotfiles-dir "align.el"))
 (require 'anything-config)
-(global-set-key (kbd "M-x") 'execute-extended-command)
+
+
 (require 'cl)
 (require 'saveplace)
 
@@ -96,7 +125,27 @@
 (require 'starter-kit-eshell)
 (require 'starter-kit-lisp)
 (require 'starter-kit-js)
+(require 'anything-el-swank-fuzzy)
 (require 'starter-kit-bindings)
+;; (autoload 'paredit "paredit" "paredit")
+;; (autoload 'inf-ruby "inf-ruby" "inf-ruby")
+;; (autoload 'starter-kit-defuns "starter-kit-defuns" "starter-kit-defuns")
+;; (autoload 'starter-kit-misc "starter-kit-misc" "starter-kit-misc")
+;; (autoload 'anything "anything" "anything")
+;; (autoload 'anything-config "anything-config" "anything-config")
+;; (autoload 'lazy-set-key "lazy-set-key" "lazy-set-key")
+;; (autoload 'dired-details "dired-details" "dired-details")
+;; (autoload 'starter-kit-yasnippet "starter-kit-yasnippet" "starter-kit-yasnippet")
+
+;; (autoload 'starter-kit-registers "starter-kit-registers" "starter-kit-registers")
+;; (autoload 'starter-kit-eshell "starter-kit-eshell" "starter-kit-eshell")
+;; (autoload 'starter-kit-lisp "starter-kit-lisp" "starter-kit-lisp")
+;; (autoload 'starter-kit-js "starter-kit-js" "starter-kit-js")
+;; (autoload 'anything-el-swank-fuzzy "anything-el-swank-fuzzy" "anything-el-swank-fuzzy")
+;; (autoload 'starter-kit-bindings "starter-kit-bindings" "starter-kit-bindings")
+
+
+(global-set-key (kbd "M-x") 'anything-M-x)
 
 (server-start)
 (menu-bar-mode)
@@ -112,7 +161,7 @@
 
 
 
-;; (require 'imenu)
+(require 'imenu)
 ;; (require 'ansi-color)
 ;; (add-hook 'shell-mode-hook 'ansi-color-for-comint-mode-on)
 ;; (setq comint-prompt-read-only t)
@@ -151,7 +200,7 @@
 
 
 
-
+(setq  default-truncate-lines t)
 
 
 (setq-default find-function-C-source-directory "/opt/local/var/macports/distfiles/emacs-app/emacs-23.3/src")
@@ -171,4 +220,6 @@
 ;; ;;   -> key 5B7N4FJN9VCSPWHU
 ;; ;;   -> cmd 
 ;; ;;   -> unique_id
-;; (require 'emms)
+
+
+
