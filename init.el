@@ -13,17 +13,217 @@
 (setq mac-option-modifier 'hyper)
 (setq mac-command-modifier 'meta)
 (setq mac-function-modifier 'super)
-(normal-top-level-add-subdirs-to-load-path)
+(setq dotfiles-dir "~/.emacs.d/")
+(mapc (lambda (f)
+        (add-to-list 'load-path f))
+      '(".emacs-backups"
+        "vendor/clojure-mode"
+        "auto-complete"
+        "auto-complete/dict" "auto-complete/doc"
+        "auto-complete/etc"
+        "auto-save-list"
+        "cedet"
+        "cedet/cogre"
+        "cedet/cogre/templates"
+        "cedet/cogre/tests"
+        "cedet/common"
+        "cedet/common/icons"
+        "cedet/contrib"
+        "cedet/ede"
+        "cedet/ede/templates"
+        "cedet/eieio"
+        "cedet/semantic"
+        "cedet/semantic/bovine"
+        "cedet/semantic/ctags"
+        "cedet/semantic/doc"
+        "cedet/semantic/symref"
+        "cedet/semantic/tests"
+        "cedet/semantic/wisent"
+        "cedet/speedbar"
+        "cedet/srecode"
+        "cedet/srecode/templates"
+        "cedet/tests"
+        "clang"
+        "company"
+        "elpa"
+        "elpa/applescript-mode-20090321"
+        "elpa/archives"
+        "elpa/archives/ELPA"
+        "elpa/archives/gnu"
+        "elpa/c-eldoc-0.6"
+        "elpa/clojure-mode-1.7.1"
+        "elpa/company-0.5"
+        "elpa/dired-isearch-0.3"
+        "elpa/elisp-depend-0.4.1"
+        "elpa/emms-3.0"
+        "elpa/eproject-0.4"
+        "elpa/js2-mode-20090814"
+        "elpa/magit-0.8.1"
+        "elpa/org-20110428"
+        "elpa/slime-20100404"
+        "elpa/slime-repl-20100404"
+        "elpa/swank-clojure-1.1.0"
+        "elpa/tempo-snippets-0.1.5"
+        "elpa-to-submit"
+        "emacs-wiki-files"
+        "eproject"
+        "groups"
+        "semanticdb"
+        "snippets"
+        "snippets/c++-mode"
+        "snippets/c-mode"
+        "snippets/cc-mode"
+        "snippets/clojure-mode"
+        "snippets/cperl-mode"
+        "snippets/csharp-mode"
+        "snippets/css-mode"
+        "snippets/emacs-lisp-mode"
+        "snippets/erlang-mode"
+        "snippets/f90-mode"
+        "snippets/html-mode"
+        "snippets/html-mode/header"
+        "snippets/html-mode/list"
+        "snippets/html-mode/meta"
+        "snippets/html-mode/table"
+        "snippets/latex-mode"
+        "snippets/markdown-mode"
+        "snippets/nxml-mode"
+        "snippets/nxml-mode/header"
+        "snippets/nxml-mode/meta"
+        "snippets/objc-mode"
+        "snippets/perl-mode"
+        "snippets/python-mode"
+        "snippets/rst-mode"
+        "snippets/ruby-mode"
+        "snippets/ruby-mode/collections"
+        "snippets/ruby-mode/control structure"
+        "snippets/ruby-mode/definitions"
+        "snippets/ruby-mode/general"
+        "snippets/scala-mode"
+        "snippets/snippet-mode"
+        "snippets/sql-mode"
+        "snippets/text-mode"
+        
+        
+        "vendor"
+        "vendor/coffee-mode"
+        "vendor/coffee-mode/examples"
+        "vendor/color-theme"
+        "vendor/color-theme/themes"
+        "vendor/cucumber"
+        "vendor/cucumber/snippets"
+        "vendor/cucumber/snippets/feature-mode"
+        "vendor/jade-mode"
+        "vendor/jump.el"
+        "vendor/jump.el/test"
+        "vendor/jump.el/test/jump-fake-app"
+        "vendor/jump.el/test/jump-fake-app/animals"
+        "vendor/jump.el/test/jump-fake-app/foods"
+        "vendor/predictive"
+        "vendor/predictive/html"
+        "vendor/predictive/latex"
+        "vendor/predictive/texinfo"
+        "vendor/pycomplexity"
+        "vendor/pycomplexity/grammar"
+        "vendor/pycomplexity/tests"
+        "vendor/pycomplexity/tests/manual"
+        "vendor/rinari"
+        "vendor/rinari/doc"
+        "vendor/rinari/test"
+        "vendor/rinari/test/rails-app"
+        "vendor/rinari/test/rails-app/app"
+        "vendor/rinari/test/rails-app/app/controllers"
+        "vendor/rinari/test/rails-app/app/helpers"
+        "vendor/rinari/test/rails-app/app/models"
+        "vendor/rinari/test/rails-app/app/views"
+        "vendor/rinari/test/rails-app/app/views/example"
+        "vendor/rinari/test/rails-app/app/views/units"
+        "vendor/rinari/test/rails-app/config"
+        "vendor/rinari/test/rails-app/config/environments"
+        "vendor/rinari/test/rails-app/config/initializers"
+        "vendor/rinari/test/rails-app/db"
+        "vendor/rinari/test/rails-app/doc"
+        "vendor/rinari/test/rails-app/log"
+        "vendor/rinari/test/rails-app/public"
+        "vendor/rinari/test/rails-app/public/images"
+        "vendor/rinari/test/rails-app/public/javascripts"
+        "vendor/rinari/test/rails-app/script"
+        "vendor/rinari/test/rails-app/script/performance"
+        "vendor/rinari/test/rails-app/script/process"
+        "vendor/rinari/test/rails-app/test"
+        "vendor/rinari/test/rails-app/test/fixtures"
+        "vendor/rinari/test/rails-app/test/functional"
+        "vendor/rinari/test/rails-app/test/unit"
+        "vendor/rinari/util"
+        "vendor/rinari/util/test"
+        "vendor/rspec-mode"
+        "vendor/ruby-complexity"
+        "vendor/textmate.el"
+        "vendor/yasnippet-0.6.1c"
+        "vendor/yasnippet-0.6.1c/snippets"
+        "vendor/yasnippet-0.6.1c/snippets/text-mode"
+        "vendor/yasnippet-0.6.1c/snippets/text-mode/cc-mode"
+        "vendor/yasnippet-0.6.1c/snippets/text-mode/cc-mode/c++-mode"
+        "vendor/yasnippet-0.6.1c/snippets/text-mode/cc-mode/c-mode"
+        "vendor/yasnippet-0.6.1c/snippets/text-mode/cc-mode/csharp-mode"
+        "vendor/yasnippet-0.6.1c/snippets/text-mode/cc-mode/objc-mode"
+        "vendor/yasnippet-0.6.1c/snippets/text-mode/css-mode"
+        "vendor/yasnippet-0.6.1c/snippets/text-mode/emacs-lisp-mode"
+        "vendor/yasnippet-0.6.1c/snippets/text-mode/erlang-mode"
+        "vendor/yasnippet-0.6.1c/snippets/text-mode/f90-mode"
+        "vendor/yasnippet-0.6.1c/snippets/text-mode/html-mode"
+        "vendor/yasnippet-0.6.1c/snippets/text-mode/latex-mode"
+        "vendor/yasnippet-0.6.1c/snippets/text-mode/markdown-mode"
+        "vendor/yasnippet-0.6.1c/snippets/text-mode/nxml-mode"
+        "vendor/yasnippet-0.6.1c/snippets/text-mode/perl-mode"
+        "vendor/yasnippet-0.6.1c/snippets/text-mode/perl-mode/cperl-mode"
+        "vendor/yasnippet-0.6.1c/snippets/text-mode/python-mode"
+        "vendor/yasnippet-0.6.1c/snippets/text-mode/rst-mode"
+        "vendor/yasnippet-0.6.1c/snippets/text-mode/ruby-mode"
+        "vendor/yasnippet-0.6.1c/snippets/text-mode/scala-mode"
+        "vendor/yasnippet-0.6.1c/snippets/text-mode/snippet-mode"
+        "vendor/yasnippet-0.6.1c/snippets/text-mode/sql-mode"
+        "vendor/yasnippet.el"
+        "vendor/yasnippet.el/snippets"
+        "vendor/yasnippet.el/snippets/text-mode"
+        "vendor/yasnippet.el/snippets/text-mode/cc-mode"
+        "vendor/yasnippet.el/snippets/text-mode/cc-mode/c++-mode"
+        "vendor/yasnippet.el/snippets/text-mode/cc-mode/c-mode"
+        "vendor/yasnippet.el/snippets/text-mode/css-mode"
+        "vendor/yasnippet.el/snippets/text-mode/emacs-lisp-mode"
+        "vendor/yasnippet.el/snippets/text-mode/erlang-mode"
+        "vendor/yasnippet.el/snippets/text-mode/f90-mode"
+        "vendor/yasnippet.el/snippets/text-mode/html-mode"
+        "vendor/yasnippet.el/snippets/text-mode/javascript-mode"
+        "vendor/yasnippet.el/snippets/text-mode/latex-mode"
+        "vendor/yasnippet.el/snippets/text-mode/markdown-mode"
+        "vendor/yasnippet.el/snippets/text-mode/nxml-mode"
+        "vendor/yasnippet.el/snippets/text-mode/objc-mode"
+        "vendor/yasnippet.el/snippets/text-mode/objj-mode"
+        "vendor/yasnippet.el/snippets/text-mode/org-mode"
+        "vendor/yasnippet.el/snippets/text-mode/perl-mode"
+        "vendor/yasnippet.el/snippets/text-mode/python-mode"
+        "vendor/yasnippet.el/snippets/text-mode/rst-mode"
+        "vendor/yasnippet.el/snippets/text-mode/ruby-mode"
+        "vendor/yasnippet.el/snippets/text-mode/sass-mode"
+        "vendor/yasnippet.el/snippets/text-mode/scala-mode"
+        "vendor/yasnippet.el/snippets/text-mode/snippet-mode"
+        "vendor/yasnippet.el/snippets/text-mode/sql-mode"
+        "vendor/yasnippet.el/snippets/text-mode/textile-mode"
+        "yasnippet"
+        "yasnippet/snippets"
+        "yasnippet/snippets/emacs-lisp-mode"))
+
 (setq package-archives '(("ELPA" . "http://tromey.com/elpa/") 
                          ("gnu" . "http://elpa.gnu.org/packages/")))
-(setq dotfiles-dir "~/.emacs.d/")
-(setq ring-bell-function 'ignore)
-(setq visual-bell nil)
-(setq visible-bell nil)
-(setq ring-bell-function 'ignore)
-(setq visual-bell nil)
-(setq visible-bell nil)
 
+(setq ring-bell-function 'ignore)
+(setq visual-bell nil)
+(setq visible-bell nil)
+(setq ring-bell-function 'ignore)
+(setq visual-bell nil)
+(setq visible-bell nil)
+(server-start )
 (find-file "~/.emacs.d/init.el")
 (load "~/.emacs.d/package.el")
 (package-initialize)
@@ -31,13 +231,16 @@
 (add-to-list 'load-path "~/.emacs")
 (add-to-list 'load-path "~/.emacs.d/groups")
 (add-to-list 'load-path "~/.emacs.d/emacs-wiki-files")
+(add-to-list 'load-path "~/.emacs.d/vendor")
 
-;(load "~/.emacs.d/vendor/color-theme-6.6.0/themes/color-theme-library")
+
+                                        ;(load "~/.emacs.d/vendor/color-theme-6.6.0/themes/color-theme-library")
                                         ;(color-theme-clarity)
 
 (let ((path))
   (setq path (concat "~/.gem/ruby/1.8/bin:"
                      "~/bin:"
+                     "/Users/hooptie45/.rvm/gems/ruby-1.8.7-p334/bin:"
                      "~/src/homebrew/bin:"
                      "/usr/local/bin:"
                      "/usr/bin:"
@@ -49,16 +252,13 @@
 
 (require 'company "~/.emacs.d/company/company.el")
 
+(require 'yari)
 
+(load-file (concat dotfiles-dir "vendor/rinari/util/" "jump.el/jump.el"))
 (require 'starter-kit-company)
 
 (setq-default dired-omit-files-p t) ; this is buffer-local variable
 (setq dired-omit-files "^\\.?#\\|^\\.$\\|~$\\|backups\\|trash\\|^.git$")
-
-
-
-(setq custom-file (concat dotfiles-dir "custom.el"))
-
 
 
 ;; (defconst package-archive-base "http://tromey.com/elpa/"
@@ -68,7 +268,7 @@
 ;; Note that some code in package.el assumes that this is an http: URL.")
 ;; 
 
- 
+
 
 
 ;; (add-to-list 'load-path "~/.emacs.d/predictive")
@@ -96,7 +296,7 @@
 
 
 
-(require 'paredit)
+
 
 (emms-all)
 
@@ -120,33 +320,18 @@
 (require 'lazy-set-key)
 (require 'dired-details)
 (require 'starter-kit-yasnippet)
-(require 'starter-kit-real-auto-save)
+(require 'clojure-mode "~/.emacs.d/vendor/clojure-mode/clojure-mode.el")
+
 (require 'starter-kit-registers)
 (require 'starter-kit-eshell)
 (require 'starter-kit-lisp)
 (require 'starter-kit-js)
+(require 'starter-kit-hooks)
 (require 'anything-el-swank-fuzzy)
-(require 'starter-kit-bindings)
-;; (autoload 'paredit "paredit" "paredit")
-;; (autoload 'inf-ruby "inf-ruby" "inf-ruby")
-;; (autoload 'starter-kit-defuns "starter-kit-defuns" "starter-kit-defuns")
-;; (autoload 'starter-kit-misc "starter-kit-misc" "starter-kit-misc")
-;; (autoload 'anything "anything" "anything")
-;; (autoload 'anything-config "anything-config" "anything-config")
-;; (autoload 'lazy-set-key "lazy-set-key" "lazy-set-key")
-;; (autoload 'dired-details "dired-details" "dired-details")
-;; (autoload 'starter-kit-yasnippet "starter-kit-yasnippet" "starter-kit-yasnippet")
-
-;; (autoload 'starter-kit-registers "starter-kit-registers" "starter-kit-registers")
-;; (autoload 'starter-kit-eshell "starter-kit-eshell" "starter-kit-eshell")
-;; (autoload 'starter-kit-lisp "starter-kit-lisp" "starter-kit-lisp")
-;; (autoload 'starter-kit-js "starter-kit-js" "starter-kit-js")
-;; (autoload 'anything-el-swank-fuzzy "anything-el-swank-fuzzy" "anything-el-swank-fuzzy")
-;; (autoload 'starter-kit-bindings "starter-kit-bindings" "starter-kit-bindings")
 
 
 (global-set-key (kbd "M-x") 'anything-M-x)
-
+(setq server-name "hooptie45")
 (server-start)
 (menu-bar-mode)
 ;;(anything-read-string-mode -1)
@@ -154,72 +339,32 @@
 
 
 (require 'magit)
-(require 'starter-kit-bindings)
+(require 'rinari)
 (require 'ido)
+
+(require 'haml-mode)
 (ido-mode 1)
 (ido-everywhere 1)
 
 
 
 (require 'imenu)
-;; (require 'ansi-color)
-;; (add-hook 'shell-mode-hook 'ansi-color-for-comint-mode-on)
-;; (setq comint-prompt-read-only t)
-
-;; (setq backup-directory-alist
-;;       '((".*" . "~/.emacs.d/.emacs-backups")))
-
-;; (setq version-control t)
-
-;; (setq kept-new-versions 1000)
-;; (setq kept-old-versions 1000)
-;; (setq backup-by-copying t)
-;; (setf my-ignore-dirs  (list "loaddefs.el " "Trash" "vendor" ".git" "SVN" ".svn" "save" "swank" "slime" "elpa" "snippets" "backups"
-;;                              "emacs-backup" "trash" "emacs-ide" "emacs-nav" "~" "#" "auto-save-list" "elc" "places"
-;;                              "elpa-to-submit/jabber/jabber.info" "thumbs" "oddmuse" ".newsrc-dribble" ".nnmail-cache"
-;;                              "#.newsrc-dribble#" ".svn" ".DS_Store" "image-dired" "elim" "session" "tramp" "history"
-;;                              "anything-c-adaptive-history" "trash" "yasnippet" "/js.js" "ido/.ido.last" "frequencies"))
-;; (add-hook 'before-save-hook 
-;;           '(lambda ()
-;;              (setq buffer-backed-up nil)))
-
-
-;; (setf findr-skip-directory-regexp (regexp-opt my-ignore-dirs))
-;; (setf grep-find-ignored-directories (regexp-opt my-ignore-dirs))
-;; (setf slime-close-all-parens-in-sexp)
-;; (setf vc-ignore-vc-files)
-;; (setf ido-ignore-directories-merge)
-;; (setf ido-ignore-buffers)
-;; (setf iswitchb-buffer-ignore)
-
-
-;; (setf grep-find-ignored-directories (regexp-opt my-ignore-dirs))
-;; (setf hippie-expand-verbose nil)
-;; (buffer-enable-undo)
-;; (setf another-line-p t)
-
 
 
 (setq  default-truncate-lines t)
 
 
-(setq-default find-function-C-source-directory "/opt/local/var/macports/distfiles/emacs-app/emacs-23.3/src")
+(setq-default find-function-C-source-directory "/opt/local/ar/macports/distfiles/emacs-app/emacs-23.3/src")
 
-;; (global-company-mode)
+(remove-hook 'kill-buffer-query-functions 'server-kill-buffer-query-function)
 
-;; ;;; Supernews
-;; ;; agile.infusion@gmail.com
-;; ;; tr4cc10u
-;; ;;
-;; ;;; Gmail (hooptie45)
-;; ;; i5H9tDgc880s
-;; ;; hooptie45@gmail.com
-;; ;;; Dreamhost-API (Shaun-Hannah.com)
-;; ;; 5B7N4FJN9VCSPWHU
-;; ;; https://api.dreamhost.com/
-;; ;;   -> key 5B7N4FJN9VCSPWHU
-;; ;;   -> cmd 
-;; ;;   -> unique_id
-
-
-
+(global-company-mode 1)
+(require 'starter-kit-bindings)
+(add-hook 'slime-load-hook '(lazy-set-key
+                             '(("M-/" . company-complete)
+                               ("M-d" . slime-documentation))
+                             
+                             slime-mode-map))
+(require 'sass-mode)
+(setq tramp-chunksize 500)
+(setq tramp-default-method "ssh")

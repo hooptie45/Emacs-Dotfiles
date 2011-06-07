@@ -1,5 +1,5 @@
 
-(add-hook 'dired-mode-hook (lambda () (dired-omit-mode)))
+(add-hook 'dired-mode-hook (lambda () (dired-omit-mode 1)))
 
 (defun emacs-init-files-git (file)
   
@@ -16,3 +16,10 @@
    ret))
 
 (provide 'starter-kit-dired)
+
+(progn
+  (magit-stage-all)
+  (magit-commit-at-point))
+
+(magit-create-branch "NP-exp" "HEAD")
+(magit-checkout "NP-exp")

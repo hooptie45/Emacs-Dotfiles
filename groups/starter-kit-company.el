@@ -31,24 +31,25 @@
 ;;     (setq company-selection-changed t)
 ;;     (company-complete-common)))
 
-;; (defun company-elisp (command &optional arg &rest ignored)
-;;   "A `company-mode' completion back-end for `emacs-lisp-mode'."
-;;   (interactive (list 'interactive))
-;;   (case command
-;;     ('interactive (company-begin-backend 'company-elisp))
-;;     ('prefix (and (eq (derived-mode-p 'emacs-lisp-mode) 'emacs-lisp-mode)
-;;                   (company-grab-lisp-symbol)))
-;;     ('candidates
-;;      )
-;;     ('meta (company-elisp-doc arg))
-;;     ('doc-buffer (let ((symbol (intern arg)))
-;;                    (save-window-excursion
-;;                      (when (or (ignore-errors (describe-function symbol))
-;;                                (ignore-errors (describe-variable symbol)))
-;;                        (help-buffer)))))
-;;     ('location (let ((sym (intern arg)))
-;;                  (or (ignore-errors (find-definition-noselect sym nil))
-;;                      (ignore-errors (find-definition-noselect sym 'defvar))
-;;                      (ignore-errors (find-definition-noselect sym t)))))))
+(defun company-elisp (command &optional arg &rest ignored)
+  "A `company-mode' completion back-end for `emacs-lisp-mode'."
+  (interactive (list 'interactive))
+  (case command
+    ('interactive (company-begin-backend 'company-elisp))
+    ('prefix (and (eq (derived-mode-p 'emacs-lisp-mode) 'emacs-lisp-mode)
+                  (company-grab-lisp-symbol)))
+    ('candidates
+     )
+    ('meta (company-elisp-doc arg))
+    ('doc-buffer (let ((symbol (intern arg)))
+                   (save-window-excursion
+                     (when (or (ignore-errors (describe-function symbol))
+                               (ignore-errors (describe-variable symbol)))
+                       (help-buffer)))))
+    ('location (let ((sym (intern arg)))
+                 (or (ignore-errors (find-definition-noselect sym nil))
+                     (ignore-errors (find-definition-noselect sym 'defvar))
+                     (ignore-errors (find-definition-noselect sym t)))))))
 
 (provide 'starter-kit-company)
+
