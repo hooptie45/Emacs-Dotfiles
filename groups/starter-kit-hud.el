@@ -8,7 +8,7 @@
                                     (buffer-name (get-buffer-create "*NP*")))))
 (defvar hud-internal-mode-func '(lambda () (split-window (selected-window) 20 t)))
 (defvar hud-init-fn '(lambda () 
-                      (split-window (selected-window) 50 t)))
+                       (split-window (selected-window) 50 t)))
 (defvar hud-internal-mode-shell "/bin/bash")
 
 (defvar hud-internal-mode-list
@@ -19,7 +19,7 @@
    '("ansi-term" "*ansi-term*" '(lambda () (ansi-term hud-internal-mode-shell)))
    '("eshell"    "*eshell*"    '(lambda () (eshell)))
    '("repl" "*repl*" '(lambda () 
-                       (slime-goto-connection)))))
+                        (slime-goto-connection)))))
 
 (defun hud-set-window-height (number)
   (interactive "nInput the number for the percentage of \
@@ -40,7 +40,7 @@ selected window height (10-100): ")
                 (setq hud-internal-mode-func (nth 2 l))
                 (throw 'found t)))))
       t
-      nil))
+    nil))
 
 (defun hud-set-internal-mode-shell (shell)
   (interactive (list (read-from-minibuffer "Input your favorite shell:"
@@ -49,43 +49,56 @@ selected window height (10-100): ")
 
 (defun hud ()
   (interactive)
-  (if (equal (buffer-name) hud-internal-mode-buffer)
-      (hud-out)
-      (hud-up)))
+  (save-excursion
+    (progn
+      (if (equal (buffer-name) hud-internal-mode-buffer)
+          (hud-out)
+        (hud-up)))))
 
 (defun hud-up ()
   (let ((w (get-buffer-window hud-internal-mode-buffer)))
     (if w
         (select-window w)
-        (progn
-                                        ; save hud-last-buffer and hud-last-window to return
-          (setq hud-last-buffer (buffer-name))
-          (setq hud-last-window (selected-window))
-          (if (not (eq hud-window-height 100))
-              (progn
-                (split-window (selected-window)
-                              (if (string= hud-window-position "bottom")
-                                  (round (* (window-height)
-                                            (/ (- 100 hud-window-height) 100.0)))
-                                  (round (* (window-height) (/ hud-window-height 100.0)))))
-                (if (string= hud-window-position "bottom")
-                    (other-window 1)
-                    (funcall (eval hud-init-fn)))))
-          (if (not (get-buffer hud-internal-mode-buffer))
-              (funcall hud-internal-mode-func)
-              (switch-to-buffer hud-internal-mode-buffer)
-              (funcall (eval hud-init-fn))))))
-  )
-
-(defun hud-out ()
-  (if (not (eq hud-window-height 100))
       (progn
-        (delete-window)
-        (if (string= hud-window-position "bottom")
-            (select-window hud-last-window))))
-  (switch-to-buffer hud-last-buffer))
+        
+        (setq hud-last-buffer (buffer-name))
+        (setq hud-last-window (selected-window))
+        (if (not (eq hud-window-height 100))
+            (progn
+              (split-window (selected-window)
+                            (if (string= hud-window-position "bottom")
+                                (round (* (window-height)
+                                          (/ (- 100 hud-window-height) 100.0)))
+                              (round (* (window-height) (/ hud-window-height 100.0)))))
+              (if (string= hud-window-position "bottom")
+                  (other-window 1)
+                (funcall (eval hud-init-fn)))))
+        (if (not (get-buffer hud-internal-mode-buffer))
+            (funcall hud-internal-mode-func)
+          (switch-to-buffer hud-internal-mode-buffer)
+          (funcall (eval hud-init-fn)))))))
+
+(defun hud-out ()  
+  (switch-to-buffer (first huds)))
+(defun hud-i ()
+  (let ((w (first huds)))
+    (if w
+        (delete-window w)
+      (if (not (eq hud-window-height 100))
+          (progn
+            (push 
+             (split-window (selected-window)
+                           (if (string= hud-window-position "bottom")
+                               (round (* (window-height)
+                                         (/ (- 100 hud-window-height) 100.0)))
+                             (round (* (window-height) (/ hud-window-height 100.0))))) huds)
+            (if (string= hud-window-position "bottom")
+                (other-window 1)
+              (funcall (eval hud-init-fn))))))))
 
 (provide 'hud)
+(defvar huds nil)
 
 ;;; hud.el ends here.
+
 

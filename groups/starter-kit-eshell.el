@@ -1,3 +1,4 @@
+
 ;;; starter-kit-eshell.el --- Making the defaults a bit saner
 ;;
 ;; Part of the Emacs Starter Kit

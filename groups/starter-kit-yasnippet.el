@@ -1,10 +1,9 @@
 
 
-(add-to-list 'load-path (concat dotfiles-dir "/yasnippet"))
 
-(require 'yasnippet)
 
+
+(load "~/.emacs.d/vendor/yasnippet.el/yasnippet.el")
 (yas/initialize)
-(yas/load-directory "~/.emacs.d/yasnippet/snippets")
-(provide 'starter-kit-yasnippet)
 
+(provide 'starter-kit-yasnippet)

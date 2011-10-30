@@ -2,7 +2,12 @@
 
     (require 'real-auto-save)
     (add-hook 'text-mode-hook 'turn-on-real-auto-save)
-    (add-hook 'muse-mode-hook 'turn-on-real-auto-save)
+(add-hook 'muse-mode-hook 'turn-on-real-auto-save)
+
+(add-hook 'muse-mode-hook 'turn-on-real-auto-save)
+
+(add-hook 'org-mode-hook 'turn-on-real-auto-save)
+(add-hook 'coffee-mode-hook 'turn-on-real-auto-save)
 
 
 

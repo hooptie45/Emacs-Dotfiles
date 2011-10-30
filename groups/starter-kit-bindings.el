@@ -1,47 +1,9 @@
-(defun find-thing-at-point ()
-  (interactive)
-  (let* ((thing (intern (thing-at-point 'sexp))))
-    (let* ((km (current-local-map)))
-      
-      (cond
-       ((functionp thing) (find-function thing))
-
-       ((boundp thing) (find-variable-other-window thing))
-       (t (ffap))))))
-
-(defun am-looking-at ()
-  "Doc for [yas] elisp error!"
-  (interactive)
-  (let ((s (read-string "char: ")))
-    (message "%s" (looking-at s))
-    ))
-
-(defun text-thing (tap)
-  "Doc for [yas] elisp error!"
-  (loop
-   for thing in tap
-   collect (buffer-substring-no-properties (car thing) (cdr thing))))
-
-(defun convert-to-lazy ()
-  "Doc for [yas] elisp error!"
-  (interactive)
-  (pp (while
-          (push )))
-  (loop while (not (null v))
-	with v = (extract-keys)
-	collect v into r
-	finally (pp r)))
-
-
-
-(require 'lazy-set-key)
-(require 'hippie-exp)
-
 (lazy-set-key
  '(("<mouse-2>" . dired-mouse-find-file))
  dired-mode-map)
 
 (lazy-set-key
+<<<<<<< HEAD
  '(("H-e"         . anything-emms)
    ("H-r"         . replace-word)
    ("H-r"         . replace-word)
@@ -50,6 +12,24 @@
                       (interactive)
                       (paredit-blink-paren-match t)))
    ("M-x"         . anything-execute-extended-command)
+=======
+ '(("H-e"         . dabbrev-expand)
+   ("M-`" . other-frame)
+   ("<H-S-up>" . speedbar-next)
+   ("<H-S-down>" . speedbar-prev)
+   ("<H-S-right>" . ns-next-frame)
+   ("<H-S-left>" . ns-prev-frame)
+   ("H-K" . delete-frame)
+   ("S-<tab>" . yas/expand)
+   ("H-r"         . replace-word)
+   ("H-r"         . replace-word)
+   ("M-/"         . company-complete)
+   
+   ("H-="         . (lambda () 
+                      (interactive)
+                      (paredit-blink-paren-match t)))
+   ("M-x"         . execute-extended-command)
+>>>>>>> configs
    ("M-<return>"  . find-thing-at-point)
    ("s-."         . point-ring-insert)
    ("s-/"         . point-ring-next)
@@ -70,6 +50,8 @@
    ("C-z"         . ibuffer)
    ("C-x C-e"     . eval-last-sexp)
    ("C-H-<down>"  . doremi-recent)
+   ("C-x f"       . recentf-ido-find-file)
+   ("C-x C-f"     . anything-mini)   
    ("H-d t"       . doremi-color-themes+)
    ("H-d h"       . doremi-window-height+)
    ("C-?"         . sel-disp)
@@ -80,6 +62,10 @@
    ("M-z"         . dired-jump)
    ("C-x g"       . magit-status)
    ("s-s"         . shell)
+<<<<<<< HEAD
+=======
+   ("<M-S-up>"    . eproject-setup-toggle)
+>>>>>>> configs
    ("<S-left>"    . windmove-left)
    ("<S-right>"   . windmove-right)
    ("<S-down>"    . windmove-down)
@@ -89,6 +75,7 @@
    ("M-z"         . dired-jump)
    ("H-p"         . push-point)
    ("M-j"         . jump-to-register)
+<<<<<<< HEAD
    ("H-w"         . push-word)
    ("M-/"         . company-complete)
    

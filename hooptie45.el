@@ -25,15 +25,9 @@
                         thing-cmds
 
                         anything-config
-        
-        
- 
-                   
                         dired-x
                         wdired
- 
                         cl
- 
                         ffap
                         uniquify
                         recentf
@@ -44,12 +38,11 @@
                         starter-kit-registers
                         starter-kit-eshell
                         starter-kit-lisp
-                        starter-kit-ruby                        
                         ))
+
+
 
 
 (load custom-file 'noerror)
 (provide 'hooptie45)
 (require 'simple)
-   
-                    

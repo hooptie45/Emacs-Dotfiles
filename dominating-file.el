@@ -1,5 +1,13 @@
 ;; Port this functionality back from Emacs 23 since it's Really Useful
 
+(defun buff-dir (&optional buf)
+  "Doc for [yas] elisp error!"
+  (interactive)
+  (file-name-directory (buffer-file-name (or buf (current-buffer)))))
+
+
+
+
 (unless (functionp 'locate-dominating-file)
   (defun locate-dominating-file (file name)
     "Look up the directory hierarchy from FILE for a file named NAME.

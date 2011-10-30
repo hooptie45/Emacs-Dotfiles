@@ -19,8 +19,7 @@
 
 
 (setq company-tooltip-limit 20)
-(setq global-company-mode t)
-
+(setq global-company-mode nil)
 
 ;; (defun test-comp ()
 ;;   (interactive)

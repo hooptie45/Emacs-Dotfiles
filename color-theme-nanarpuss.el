@@ -5,9 +5,9 @@
    '(color-theme-nanarpuss
      ((background-color . "gray5")
       (background-mode . dark)
-      (border-color . "gray30")
+      (border-color . "gray10")
       
-      (cursor-color . "yellow")
+      (cursor-color . "slateblue")
       (foreground-color . "gray90")
       (mouse-color . "white"))
 
@@ -19,7 +19,7 @@
      (bold ((t (:bold t :weight bold))))
      (bold-italic ((t (:italic t :bold t :slant italic :weight bold))))
      (border ((t (:background "Gray30"))))
-     (clearcase-dired-checkedout-face ((t (:foreground "red"))))
+
      (comint-highlight-input ((t (:bold t :weight bold))))
      (comint-highlight-prompt ((t (:foreground "cyan"))))
      (completions-common-part ((t (:inherit default :foreground "orangered"))))
@@ -29,9 +29,9 @@
      (custom-button-pressed ((t (:background "lightgrey" :foreground "black" :box (:line-width 2 :style pressed-button)))))
      (custom-comment ((t (:background "Grey13" :foreground "LightSkyBlue1" :box 1))))
      (custom-comment-tag ((t (:foreground "gray80"))))
-     (default ((t (:stipple nil :background "gray5" :foreground "gray90" :inverse-video nil :box nil :strike-through nil :overline nil :underline nil :slant normal :weight normal :height 160 :width normal :foundry "apple" :family "Monaco"))))     
+     (default ((t (:stipple nil :background "gray5" :foreground "gray90" :inverse-video nil :box nil :strike-through nil :overline nil :underline nil :slant normal :weight normal :height 190 :width normal :foundry "apple" :family "Monaco"))))
      (diredp-dir-heading ((t (:background "White" :foreground "Blue"))))
-     (diredp-dir-priv ((t (:background "white" :foreground "Red"))))
+     (diredp-dir-priv ((t (:foreground "hotpink"))))
      (diredp-file-name ((t (:foreground "OrangeRed"))))
      (diredp-file-suffix ((t (:inherit diredp-file-name))))
      (diredp-number ((t (:foreground "Orange"))))
@@ -69,7 +69,7 @@
      (magit-section-title ((t (:bold t :foreground "yellow" :weight bold))))
      (menu ((t (nil))))
      (minibuffer-prompt ((((background dark)) (:foreground "#44f"))))
-     (mode-line ((t (:foreground "gray30" :background "white" ))))
+     (mode-line ((t (:foreground "orangered" :background "white" ))))
      (mouse ((t (:background "white"))))
      (rainbow-delimiters-paren-depth-1-face ((t (:foreground "yellow"))))
      (rainbow-delimiters-paren-depth-2-face ((t (:foreground "green"))))
@@ -80,7 +80,7 @@
      (rainbow-delimiters-paren-depth-7-face ((t (:foreground "Orchid"))))
      (rainbow-delimiters-paren-depth-8-face ((t (:foreground "white"))))    
      (rainbow-delimiters-unmatched-face ((t (:foreground "#88090B"))))
-     (region ((t (:background "Gray30"))))
+     (region ((t (:background "slategray"))))
      
      (secondary-selection ((t (:background "darkslateblue"))))
      (show-block-face1 ((t (:background "gray10"))))
